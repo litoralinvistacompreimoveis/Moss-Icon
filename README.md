@@ -132,7 +132,7 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/0001.png') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/0001.jpg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
