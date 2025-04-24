@@ -1,4 +1,5 @@
-# <svg width="64" height="64" viewBox="0 0 64 64">
+#  <link rel="icon" href="caminho/para/seu-favicon.ico" type="image/x-icon">
+<svg width="64" height="64" viewBox="0 0 64 64">
   <!-- Fundo do sol -->
   <circle cx="32" cy="20" r="15" fill="#FFD700"/>
   <!-- Edifício -->
