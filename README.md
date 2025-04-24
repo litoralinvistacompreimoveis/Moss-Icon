@@ -64,9 +64,9 @@
             color: var(--primary-color);
         }
         
-        /* Hamburger Menu */
+        /* Hamburger Menu - Sempre visível */
         .hamburger {
-            display: none;
+            display: block;
             cursor: pointer;
             padding: 10px;
         }
@@ -80,12 +80,27 @@
         }
         
         .nav-links {
-            display: flex;
+            position: fixed;
+            top: 70px;
+            right: -100%;
+            width: 70%;
+            height: calc(100vh - 70px);
+            background-color: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 2rem;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
             list-style: none;
         }
         
+        .nav-links.active {
+            right: 0;
+        }
+        
         .nav-links li {
-            margin-left: 2rem;
+            margin: 1rem 0;
         }
         
         .nav-links a {
@@ -621,48 +636,6 @@
             margin-bottom: 1rem;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                right: -100%;
-                width: 70%;
-                height: calc(100vh - 70px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                padding-top: 2rem;
-                transition: right 0.3s ease;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 1rem 0;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -834,26 +807,85 @@
                     <label for="unidade">Selecione a Unidade</label>
                     <select id="unidade">
                         <option value="">Selecione uma unidade</option>
-                        <option value="101" data-metragem="34.01" data-valor="475842.41">101 - 34,01 m² - SUL</option>
-                        <option value="102" data-metragem="27.28" data-valor="392320.50">102 - 27,28 m² - SUL</option>
-                        <option value="103" data-metragem="27.98" data-valor="402387.38">103 - 27,98 m² - SUL</option>
-                        <option value="104" data-metragem="32.06" data-valor="461062.88">104 - 32,06 m² - SUL</option>
-                        <option value="105" data-metragem="33.58" data-valor="481285.35">105 - 33,58 m² - NASC/SUL</option>
-                        <option value="106" data-metragem="24.27" data-valor="354948.75">106 - 24,27 m² - NASCENTE</option>
-                        <option value="107" data-metragem="24.65" data-valor="360506.25">107 - 24,65 m² - NASCENTE</option>
-                        <option value="108" data-metragem="30.11" data-valor="447698.06">108 - 30,11 m² - NASC/NORTE</option>
-                        <option value="201" data-metragem="34.01" data-valor="488043.50">201 - 34,01 m² - SUL</option>
-                        <option value="202" data-metragem="27.28" data-valor="402380.00">202 - 27,28 m² - SUL</option>
-                        <option value="203" data-metragem="27.98" data-valor="412705.00">203 - 27,98 m² - SUL</option>
-                        <option value="204" data-metragem="32.06" data-valor="472885.00">204 - 32,06 m² - SUL</option>
-                        <option value="205" data-metragem="33.58" data-valor="493626.00">205 - 33,58 m² - NASC/SUL</option>
-                        <option value="206" data-metragem="24.27" data-valor="364050.00">206 - 24,27 m² - NASCENTE</option>
-                        <option value="207" data-metragem="24.65" data-valor="369750.00">207 - 24,65 m² - NASCENTE</option>
-                        <option value="208" data-metragem="32.84" data-valor="500810.00">208 - 32,84 m² - NASC/NORTE</option>
-                        <option value="209" data-metragem="21.06" data-valor="299989.17">209 - 21,06 m² - NORTE</option>
-                        <option value="210" data-metragem="21.67" data-valor="302296.50">210 - 21,67 m² - NORTE</option>
-                        <option value="211" data-metragem="22.10" data-valor="308295.00">211 - 22,10 m² - NORTE</option>
-                        <option value="212" data-metragem="30.27" data-valor="446482.50">212 - 30,27 m² - NORTE</option>
+                        <!-- 1º PAVIMENTO -->
+                        <option value="101" data-metragem="34.01" data-valor="475842.41" data-entrada="71376.36" data-parcela="2478.35" data-intercalada="11896.06">101 - 34,01 m² - SUL</option>
+                        <option value="102" data-metragem="27.28" data-valor="392320.50" data-entrada="58848.08" data-parcela="2043.34" data-intercalada="9808.01">102 - 27,28 m² - SUL</option>
+                        <option value="103" data-metragem="27.98" data-valor="402387.38" data-entrada="60358.11" data-parcela="2095.77" data-intercalada="10059.68">103 - 27,98 m² - SUL</option>
+                        <option value="104" data-metragem="32.06" data-valor="461062.88" data-entrada="69159.43" data-parcela="2401.37" data-intercalada="11526.57">104 - 32,06 m² - SUL</option>
+                        <option value="105" data-metragem="33.58" data-valor="481285.35" data-entrada="72192.80" data-parcela="2506.69" data-intercalada="12032.13">105 - 33,58 m² - NASC/SUL</option>
+                        <option value="106" data-metragem="24.27" data-valor="354948.75" data-entrada="53242.31" data-parcela="1848.69" data-intercalada="8873.72">106 - 24,27 m² - NASCENTE</option>
+                        <option value="107" data-metragem="24.65" data-valor="360506.25" data-entrada="54075.94" data-parcela="1877.64" data-intercalada="9012.66">107 - 24,65 m² - NASCENTE</option>
+                        <option value="108" data-metragem="30.11" data-valor="447698.06" data-entrada="67154.71" data-parcela="2331.76" data-intercalada="11192.45">108 - 30,11 m² - NASC/NORTE</option>
+                        
+                        <!-- 2º PAVIMENTO -->
+                        <option value="201" data-metragem="34.01" data-valor="488043.50" data-entrada="73206.53" data-parcela="2541.89" data-intercalada="12201.09">201 - 34,01 m² - SUL</option>
+                        <option value="202" data-metragem="27.28" data-valor="402380.00" data-entrada="60357.00" data-parcela="2095.73" data-intercalada="10059.50">202 - 27,28 m² - SUL</option>
+                        <option value="203" data-metragem="27.98" data-valor="412705.00" data-entrada="61905.75" data-parcela="2149.51" data-intercalada="10317.63">203 - 27,98 m² - SUL</option>
+                        <option value="204" data-metragem="32.06" data-valor="472885.00" data-entrada="70932.75" data-parcela="2462.94" data-intercalada="11822.13">204 - 32,06 m² - SUL</option>
+                        <option value="205" data-metragem="33.58" data-valor="493626.00" data-entrada="74043.90" data-parcela="2570.97" data-intercalada="12340.65">205 - 33,58 m² - NASC/SUL</option>
+                        <option value="206" data-metragem="24.27" data-valor="364050.00" data-entrada="54607.50" data-parcela="1896.09" data-intercalada="9101.25">206 - 24,27 m² - NASCENTE</option>
+                        <option value="207" data-metragem="24.65" data-valor="369750.00" data-entrada="55462.50" data-parcela="1925.78" data-intercalada="9243.75">207 - 24,65 m² - NASCENTE</option>
+                        <option value="208" data-metragem="32.84" data-valor="500810.00" data-entrada="75121.50" data-parcela="2608.39" data-intercalada="12520.25">208 - 32,84 m² - NASC/NORTE</option>
+                        <option value="209" data-metragem="21.06" data-valor="299989.17" data-entrada="44998.38" data-parcela="1562.44" data-intercalada="7499.73">209 - 21,06 m² - NORTE</option>
+                        <option value="210" data-metragem="21.67" data-valor="302296.50" data-entrada="45344.48" data-parcela="1574.46" data-intercalada="7557.41">210 - 21,67 m² - NORTE</option>
+                        <option value="211" data-metragem="22.10" data-valor="308295.00" data-entrada="46244.25" data-parcela="1605.70" data-intercalada="7707.38">211 - 22,10 m² - NORTE</option>
+                        <option value="212" data-metragem="30.27" data-valor="446482.50" data-entrada="66972.38" data-parcela="2325.43" data-intercalada="11162.06">212 - 30,27 m² - NORTE</option>
+                        
+                        <!-- 3º PAVIMENTO -->
+                        <option value="301" data-metragem="34.01" data-valor="500244.59" data-entrada="75036.69" data-parcela="2605.44" data-intercalada="12506.11">301 - 34,01 m² - SUL</option>
+                        <option value="302" data-metragem="27.28" data-valor="412439.50" data-entrada="61865.93" data-parcela="2148.12" data-intercalada="10310.99">302 - 27,28 m² - SUL</option>
+                        <option value="303" data-metragem="27.98" data-valor="423022.63" data-entrada="63453.39" data-parcela="2203.24" data-intercalada="10575.57">303 - 27,98 m² - SUL</option>
+                        <option value="304" data-metragem="32.06" data-valor="482342.70" data-entrada="72351.41" data-parcela="2512.20" data-intercalada="12058.57">304 - 32,06 m² - SUL</option>
+                        <option value="305" data-metragem="33.58" data-valor="505966.65" data-entrada="75895.00" data-parcela="2635.24" data-intercalada="12649.17">305 - 33,58 m² - NASC/SUL</option>
+                        <option value="306" data-metragem="24.27" data-valor="373151.25" data-entrada="55972.69" data-parcela="1943.50" data-intercalada="9328.78">306 - 24,27 m² - NASCENTE</option>
+                        <option value="307" data-metragem="24.65" data-valor="378993.75" data-entrada="56849.06" data-parcela="1973.93" data-intercalada="9474.84">307 - 24,65 m² - NASCENTE</option>
+                        
+                        <!-- 4º PAVIMENTO -->
+                        <option value="401" data-metragem="34.98" data-valor="527374.88" data-entrada="79106.23" data-parcela="2746.74" data-intercalada="13184.37">401 - 34,98 m² - SUL</option>
+                        <option value="402" data-metragem="23.05" data-valor="357199.37" data-entrada="53579.91" data-parcela="1860.41" data-intercalada="8929.98">402 - 23,05 m² - SUL</option>
+                        <option value="403" data-metragem="23.62" data-valor="366032.50" data-entrada="54904.87" data-parcela="1906.42" data-intercalada="9150.81">403 - 23,62 m² - SUL</option>
+                        <option value="404" data-metragem="37.67" data-valor="565045.48" data-entrada="84756.82" data-parcela="2942.95" data-intercalada="14126.14">404 - 37,67 m² - NASC/SUL</option>
+                        <option value="405" data-metragem="41.95" data-valor="623028.29" data-entrada="93454.24" data-parcela="3244.94" data-intercalada="15575.71">405 - 41,95 m² - NASCENTE</option>
+                        <option value="406" data-metragem="34.13" data-valor="546831.93" data-entrada="82024.79" data-parcela="2848.08" data-intercalada="13670.80">406 - 34,13 m² - NASC/NORTE</option>
+                        <option value="407" data-metragem="20.68" data-valor="340060.89" data-entrada="51009.13" data-parcela="1771.15" data-intercalada="8501.52">407 - 20,68 m² - NORTE</option>
+                        <option value="408" data-metragem="21.19" data-valor="348447.30" data-entrada="52267.10" data-parcela="1814.83" data-intercalada="8711.18">408 - 21,19 m² - NORTE</option>
+                        <option value="409" data-metragem="34.17" data-valor="526427.27" data-entrada="78964.09" data-parcela="2741.81" data-intercalada="13160.68">409 - 34,17 m² - NORTE</option>
+                        
+                        <!-- 8º PAVIMENTO -->
+                        <option value="801" data-metragem="26.46" data-valor="452166.10" data-entrada="67824.91" data-parcela="2355.03" data-intercalada="11304.15">801 - 26,46 m² - SUL</option>
+                        <option value="802" data-metragem="20.21" data-valor="355055.04" data-entrada="53258.26" data-parcela="1849.25" data-intercalada="8876.38">802 - 20,21 m² - SUL</option>
+                        <option value="803" data-metragem="20.78" data-valor="365068.96" data-entrada="54760.34" data-parcela="1901.40" data-intercalada="9126.72">803 - 20,78 m² - SUL</option>
+                        <option value="804" data-metragem="26.55" data-valor="464884.98" data-entrada="69732.75" data-parcela="2421.28" data-intercalada="11622.12">804 - 26,55 m² - NASC/SUL</option>
+                        <option value="805" data-metragem="18.21" data-valor="305876.78" data-entrada="45881.52" data-parcela="1593.11" data-intercalada="7646.92">805 - 18,21 m² - NASCENTE</option>
+                        <option value="806" data-metragem="18.59" data-valor="328694.44" data-entrada="49304.17" data-parcela="1711.95" data-intercalada="8217.36">806 - 18,59 m² - NASCENTE</option>
+                        <option value="807" data-metragem="27.34" data-valor="506241.54" data-entrada="75936.23" data-parcela="2636.67" data-intercalada="12656.04">807 - 27,34 m² - NASC/NORTE</option>
+                        <option value="808" data-metragem="20.68" data-valor="386466.48" data-entrada="57969.97" data-parcela="2012.85" data-intercalada="9661.66">808 - 20,68 m² - NORTE</option>
+                        <option value="809" data-metragem="21.19" data-valor="395997.33" data-entrada="59399.60" data-parcela="2062.49" data-intercalada="9899.93">809 - 21,19 m² - NORTE</option>
+                        <option value="810" data-metragem="28.49" data-valor="490034.66" data-entrada="73505.20" data-parcela="2552.26" data-intercalada="12250.87">810 - 28,49 m² - NORTE</option>
+                        
+                        <!-- 9º PAVIMENTO -->
+                        <option value="901" data-metragem="26.46" data-valor="474774.40" data-entrada="71216.16" data-parcela="2472.78" data-intercalada="11869.36">901 - 26,46 m² - SUL</option>
+                        <option value="902" data-metragem="20.21" data-valor="372807.79" data-entrada="55921.17" data-parcela="1941.71" data-intercalada="9320.19">902 - 20,21 m² - SUL</option>
+                        <option value="903" data-metragem="20.78" data-valor="383322.41" data-entrada="57498.36" data-parcela="1996.47" data-intercalada="9583.06">903 - 20,78 m² - SUL</option>
+                        <option value="904" data-metragem="26.55" data-valor="488129.22" data-entrada="73219.38" data-parcela="2542.34" data-intercalada="12203.23">904 - 26,55 m² - NASC/SUL</option>
+                        <option value="905" data-metragem="18.21" data-valor="338074.34" data-entrada="50711.15" data-parcela="1760.80" data-intercalada="8451.86">905 - 18,21 m² - NASCENTE</option>
+                        <option value="906" data-metragem="18.59" data-valor="345129.16" data-entrada="51769.37" data-parcela="1797.55" data-intercalada="8628.23">906 - 18,59 m² - NASCENTE</option>
+                        <option value="907" data-metragem="27.34" data-valor="531553.62" data-entrada="79733.04" data-parcela="2768.51" data-intercalada="13288.84">907 - 27,34 m² - NASC/NORTE</option>
+                        <option value="908" data-metragem="20.68" data-valor="405789.80" data-entrada="60868.47" data-parcela="2113.49" data-intercalada="10144.75">908 - 20,68 m² - NORTE</option>
+                        <option value="909" data-metragem="21.19" data-valor="415797.19" data-entrada="62369.58" data-parcela="2165.61" data-intercalada="10394.93">909 - 21,19 m² - NORTE</option>
+                        <option value="910" data-metragem="28.49" data-valor="514536.40" data-entrada="77180.46" data-parcela="2679.88" data-intercalada="12863.41">910 - 28,49 m² - NORTE</option>
+                        
+                        <!-- 10º PAVIMENTO -->
+                        <option value="1001" data-metragem="26.46" data-valor="498513.12" data-entrada="74776.97" data-parcela="2596.42" data-intercalada="12462.83">1001 - 26,46 m² - SUL</option>
+                        <option value="1002" data-metragem="20.21" data-valor="391448.18" data-entrada="58717.23" data-parcela="2038.79" data-intercalada="9786.20">1002 - 20,21 m² - SUL</option>
+                        <option value="1003" data-metragem="20.78" data-valor="402488.53" data-entrada="60373.28" data-parcela="2096.29" data-intercalada="10062.21">1003 - 20,78 m² - SUL</option>
+                        <option value="1004" data-metragem="26.55" data-valor="512535.69" data-entrada="76880.35" data-parcela="2669.46" data-intercalada="12813.39">1004 - 26,55 m² - NASC/SUL</option>
+                        <option value="1005" data-metragem="18.21" data-valor="354978.06" data-entrada="53246.71" data-parcela="1848.84" data-intercalada="8874.45">1005 - 18,21 m² - NASCENTE</option>
+                        <option value="1006" data-metragem="18.59" data-valor="362385.62" data-entrada="54357.84" data-parcela="1887.43" data-intercalada="9059.64">1006 - 18,59 m² - NASCENTE</option>
+                        <option value="1007" data-metragem="27.34" data-valor="558131.30" data-entrada="83719.69" data-parcela="2906.93" data-intercalada="13953.28">1007 - 27,34 m² - NASC/NORTE</option>
+                        <option value="1008" data-metragem="20.68" data-valor="426079.29" data-entrada="63911.89" data-parcela="2219.16" data-intercalada="10651.98">1008 - 20,68 m² - NORTE</option>
+                        <option value="1009" data-metragem="21.19" data-valor="436587.05" data-entrada="65488.06" data-parcela="2273.89" data-intercalada="10914.68">1009 - 21,19 m² - NORTE</option>
+                        <option value="1010" data-metragem="28.49" data-valor="540263.21" data-entrada="81039.48" data-parcela="2813.87" data-intercalada="13506.58">1010 - 28,49 m² - NORTE</option>
                     </select>
                 </div>
                 
@@ -864,7 +896,7 @@
                 
                 <div class="form-group">
                     <label for="entrada">Entrada (mínimo 10% do valor do imóvel)</label>
-                    <input type="number" id="entrada" placeholder="Digite o valor da entrada">
+                    <input type="number" id="entrada" placeholder="Digite o valor da entrada" oninput="updateCalculations()">
                     <span id="percentual-entrada" class="percent">0%</span>
                 </div>
                 
@@ -875,7 +907,7 @@
                 
                 <div class="form-group">
                     <label for="parcela">Valor da Parcela Mensal</label>
-                    <input type="number" id="parcela" placeholder="Digite o valor da parcela">
+                    <input type="number" id="parcela" placeholder="Digite o valor da parcela" oninput="updateCalculations()">
                     <span id="percentual-parcela" class="percent">0%</span>
                 </div>
                 
@@ -886,9 +918,15 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="intercalada">Intercaladas</label>
-                    <input type="number" id="intercalada" placeholder="Digite o valor das intercaladas">
+                    <label for="intercalada">Valor de cada Intercalada (8x)</label>
+                    <input type="number" id="intercalada" placeholder="Digite o valor de cada intercalada" oninput="updateCalculations()">
                     <span id="percentual-intercalada" class="percent">0%</span>
+                </div>
+                
+                <div class="value-display">
+                    <span>Total das Intercaladas (8x):</span>
+                    <span id="total-intercaladas">R$ 0,00</span>
+                    <span id="percentual-total-intercaladas" class="percent">0%</span>
                 </div>
                 
                 <div class="calculation-row">
@@ -913,7 +951,7 @@
                     Atenção: O valor total financiado deve ser no mínimo 47% do valor do imóvel.
                 </div>
                 
-                <button id="enviar-simulacao" class="submit-btn">Enviar Simulação</button>
+                <button type="button" id="enviar-simulacao" class="submit-btn">Enviar Simulação</button>
             </div>
         </div>
     </section>
@@ -1086,7 +1124,7 @@
     </div>
     
     <script>
-        // Menu Hamburguer
+        // Menu Hamburguer - Sempre visível
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         
@@ -1095,15 +1133,18 @@
             hamburger.classList.toggle('active');
         });
         
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+        
         // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    hamburger.classList.remove('active');
-                }
                 
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
@@ -1145,6 +1186,8 @@
         const percentualTotalParcelas = document.getElementById('percentual-total-parcelas');
         const intercaladaInput = document.getElementById('intercalada');
         const percentualIntercalada = document.getElementById('percentual-intercalada');
+        const totalIntercaladasDisplay = document.getElementById('total-intercaladas');
+        const percentualTotalIntercaladas = document.getElementById('percentual-total-intercaladas');
         const subtotalDisplay = document.getElementById('subtotal');
         const percentualSubtotal = document.getElementById('percentual-subtotal');
         const chavesDisplay = document.getElementById('chaves');
@@ -1158,46 +1201,53 @@
         // Atualizar quando selecionar a unidade
         unidadeSelect.addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
-            valorImovel = parseFloat(selectedOption.getAttribute('data-valor'));
-            valorImovelDisplay.textContent = formatCurrency(valorImovel);
+            if (selectedOption.value === "") {
+                valorImovel = 0;
+                valorImovelDisplay.textContent = "R$ 0,00";
+                entradaInput.value = '';
+                parcelaInput.value = '';
+                intercaladaInput.value = '';
+                return;
+            }
             
-            // Limpar outros campos
-            entradaInput.value = '';
-            parcelaInput.value = '';
-            intercaladaInput.value = '';
+            valorImovel = parseFloat(selectedOption.getAttribute('data-valor'));
+            const entradaPadrao = parseFloat(selectedOption.getAttribute('data-entrada'));
+            const parcelaPadrao = parseFloat(selectedOption.getAttribute('data-parcela'));
+            const intercaladaPadrao = parseFloat(selectedOption.getAttribute('data-intercalada'));
+            
+            valorImovelDisplay.textContent = formatCurrency(valorImovel);
+            entradaInput.value = entradaPadrao.toFixed(2);
+            parcelaInput.value = parcelaPadrao.toFixed(2);
+            intercaladaInput.value = intercaladaPadrao.toFixed(2);
+            
             updateCalculations();
         });
         
-        // Atualizar cálculos quando qualquer valor mudar
-        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
-            input.addEventListener('input', updateCalculations);
-        });
+        // Função para formatar valores monetários
+        function formatCurrency(value) {
+            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
+        }
         
+        // Função para calcular e atualizar os valores
         function updateCalculations() {
             // Obter valores dos inputs
             const entrada = parseFloat(entradaInput.value) || 0;
             const parcela = parseFloat(parcelaInput.value) || 0;
             const intercalada = parseFloat(intercaladaInput.value) || 0;
             
-            // Verificar entrada mínima
-            const entradaMinima = valorImovel * 0.1;
-            if (entrada > 0 && entrada < entradaMinima) {
-                alert(`A entrada mínima é de R$ ${formatCurrency(entradaMinima)} (10% do valor do imóvel)`);
-                entradaInput.value = '';
-                return;
-            }
-            
             // Calcular totais
             const totalParcelas = parcela * 48;
-            const subtotal = entrada + totalParcelas + intercalada;
+            const totalIntercaladas = intercalada * 8;
+            const subtotal = entrada + totalParcelas + totalIntercaladas;
             const chaves = valorImovel - subtotal;
             const totalFinanciado = subtotal;
             
             // Calcular percentuais
             const percentEntrada = (entrada / valorImovel) * 100;
             const percentParcela = (parcela / valorImovel) * 100;
-            const percentTotalParcelas = (totalParcelas / valorImovel) * 100;
+            const percentTotalParcelasCalc = (totalParcelas / valorImovel) * 100;
             const percentIntercalada = (intercalada / valorImovel) * 100;
+            const percentTotalIntercaladasCalc = (totalIntercaladas / valorImovel) * 100;
             const percentSubtotal = (subtotal / valorImovel) * 100;
             const percentChaves = (chaves / valorImovel) * 100;
             const percentTotal = (totalFinanciado / valorImovel) * 100;
@@ -1206,8 +1256,10 @@
             percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
             percentualParcela.textContent = percentParcela.toFixed(2) + '%';
             totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
-            percentualTotalParcelas.textContent = percentTotalParcelas.toFixed(2) + '%';
+            percentualTotalParcelas.textContent = percentTotalParcelasCalc.toFixed(2) + '%';
             percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
+            totalIntercaladasDisplay.textContent = formatCurrency(totalIntercaladas);
+            percentualTotalIntercaladas.textContent = percentTotalIntercaladasCalc.toFixed(2) + '%';
             subtotalDisplay.textContent = formatCurrency(subtotal);
             percentualSubtotal.textContent = percentSubtotal.toFixed(2) + '%';
             chavesDisplay.textContent = formatCurrency(chaves);
@@ -1223,9 +1275,10 @@
             }
         }
         
-        function formatCurrency(value) {
-            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
-        }
+        // Atualizar cálculos quando qualquer valor mudar
+        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
         
         // Enviar simulação para WhatsApp
         document.getElementById('enviar-simulacao').addEventListener('click', function() {
@@ -1240,6 +1293,7 @@
             const parcelaText = 'R$ ' + (parcelaInput.value || '0') + ' (' + percentualParcela.textContent + ')';
             const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
             const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
+            const totalIntercaladasText = totalIntercaladasDisplay.textContent + ' (' + percentualTotalIntercaladas.textContent + ')';
             const subtotalText = subtotalDisplay.textContent + ' (' + percentualSubtotal.textContent + ')';
             const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
             const totalText = totalFinanciadoDisplay.textContent + ' (' + percentualTotal.textContent + ')';
@@ -1250,7 +1304,8 @@
                             `Entrada: ${entradaText}\n` +
                             `Parcela: ${parcelaText}\n` +
                             `Total Parcelas (48x): ${totalParcelasText}\n` +
-                            `Intercaladas: ${intercaladaText}\n\n` +
+                            `Intercalada: ${intercaladaText}\n` +
+                            `Total Intercaladas (8x): ${totalIntercaladasText}\n\n` +
                             `Subtotal antes das chaves: ${subtotalText}\n` +
                             `Chaves: ${chavesText}\n\n` +
                             `TOTAL FINANCIADO: ${totalText}\n\n` +
