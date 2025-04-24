@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -25,6 +26,11 @@
             line-height: 1.6;
             color: var(--dark-color);
             overflow-x: hidden;
+            background-image: url('imagens/0036.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
         
         /* Header */
@@ -63,11 +69,12 @@
             color: var(--primary-color);
         }
         
-        /* Hamburger Menu - Sempre visível */
+        /* Menu Hamburguer - Ajustado para desktop */
         .hamburger {
             display: block;
             cursor: pointer;
             padding: 10px;
+            z-index: 1001;
         }
         
         .hamburger div {
@@ -80,18 +87,30 @@
         
         .nav-links {
             position: fixed;
-            top: 70px;
+            top: 0;
             right: -100%;
-            width: 70%;
-            height: calc(100vh - 70px);
-            background-color: white;
+            width: 300px;
+            height: 100vh;
+            background: url('imagens/0017.jpg') no-repeat center center/cover;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             padding-top: 2rem;
             transition: right 0.3s ease;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
             list-style: none;
+            z-index: 1000;
+        }
+        
+        .nav-links::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
         
         .nav-links.active {
@@ -99,19 +118,20 @@
         }
         
         .nav-links li {
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
         
         .nav-links a {
             text-decoration: none;
-            color: var(--dark-color);
+            color: white;
             font-weight: 500;
+            font-size: 1.2rem;
             transition: color 0.3s ease;
             position: relative;
         }
         
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: var(--secondary-color);
         }
         
         .nav-links a::after {
@@ -119,7 +139,7 @@
             position: absolute;
             width: 0;
             height: 2px;
-            background: var(--primary-color);
+            background: var(--secondary-color);
             bottom: -5px;
             left: 0;
             transition: width 0.3s ease;
@@ -132,7 +152,6 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/0001.jpg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -140,10 +159,24 @@
             color: white;
             padding: 0 2rem;
             margin-top: 70px;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
         }
         
         .hero-content {
             max-width: 800px;
+            position: relative;
+            z-index: 1;
         }
         
         .hero h1 {
@@ -182,6 +215,9 @@
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
         
         .section-title {
@@ -213,7 +249,8 @@
         /* Gallery Section */
         .gallery {
             padding: 5rem 2rem;
-            background-color: var(--light-color);
+            background-color: rgba(248, 249, 250, 0.9);
+            margin-bottom: 2rem;
         }
         
         .gallery-container {
@@ -257,6 +294,9 @@
             padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
         
         .features-grid {
@@ -296,8 +336,9 @@
         /* Location Section */
         .location {
             padding: 5rem 2rem;
-            background-color: var(--light-color);
+            background-color: rgba(248, 249, 250, 0.9);
             text-align: center;
+            margin-bottom: 2rem;
         }
         
         .location-container {
@@ -319,11 +360,134 @@
             object-fit: cover;
         }
         
+        /* Simulation Section */
+        .simulation {
+            padding: 5rem 2rem;
+            background-color: rgba(248, 249, 250, 0.9);
+            margin-bottom: 2rem;
+        }
+        
+        .simulation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .simulation-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+        
+        .simulation-form .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .simulation-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .simulation-form input, 
+        .simulation-form select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .value-display {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .value-display span {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 150px;
+        }
+        
+        .percent {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .total-row {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .faq-container {
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 1.5rem;
+        }
+        
         /* Contact Section */
         .contact {
             padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
         
         .contact-container {
@@ -418,122 +582,6 @@
             background-color: #128C7E;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Simulation Section */
-        .simulation {
-            padding: 5rem 2rem;
-            background-color: var(--light-color);
-        }
-        
-        .simulation-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .simulation-form {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 3rem;
-        }
-        
-        .simulation-form .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        .simulation-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .simulation-form input, 
-        .simulation-form select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .value-display {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .value-display span {
-            font-weight: bold;
-            margin-right: 10px;
-            min-width: 150px;
-        }
-        
-        .percent {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        
-        .calculation-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            padding: 0.8rem;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        
-        .total-row {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-        
-        /* FAQ Section */
-        .faq {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .faq-container {
-            margin-top: 3rem;
-        }
-        
-        .faq-item {
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .faq-question {
-            padding: 1.5rem;
-            background-color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
-        }
-        
-        .faq-question:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .faq-answer {
-            padding: 0 1.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            background-color: #f8f9fa;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 300px;
-            padding: 1.5rem;
         }
         
         /* Footer */
@@ -633,6 +681,44 @@
             font-size: 3rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
+        }
+        
+        /* Media Queries */
+        @media (min-width: 992px) {
+            .hamburger {
+                display: none;
+            }
+            
+            .nav-links {
+                position: static;
+                width: auto;
+                height: auto;
+                background: transparent;
+                display: flex;
+                flex-direction: row;
+                padding-top: 0;
+                box-shadow: none;
+            }
+            
+            .nav-links::before {
+                display: none;
+            }
+            
+            .nav-links li {
+                margin: 0 1rem;
+            }
+            
+            .nav-links a {
+                color: var(--dark-color);
+            }
+            
+            .nav-links a:hover {
+                color: var(--primary-color);
+            }
+            
+            .nav-links a::after {
+                background: var(--primary-color);
+            }
         }
         
         @keyframes fadeIn {
@@ -1130,6 +1216,9 @@
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
+            
+            // Adiciona/remove classe no body para evitar scroll quando menu está aberto
+            document.body.classList.toggle('no-scroll');
         });
         
         // Fechar menu ao clicar em um link
@@ -1137,6 +1226,7 @@
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
+                document.body.classList.remove('no-scroll');
             });
         });
         
