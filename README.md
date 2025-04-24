@@ -717,7 +717,7 @@
             <h2 class="section-title">Conheça o MOSS</h2>
             <div class="mosaic">
                 <div class="mosaic-item">
-                    <img src="0003.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0003.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
                     <img src="0018.jpg" alt="Imagem do empreendimento MOSS">
