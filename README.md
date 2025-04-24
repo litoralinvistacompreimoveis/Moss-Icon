@@ -9,7 +9,7 @@
 </svg> Litoral Invista | Empreendimentos Imobiliários em João Pessoa  
 
 <p align="center">
-  <img src="imagens/Captura de Tela 2025-04-24 às 15.03.36.png" alt="Banner João Pessoa" width="600"> *(Substitua pelo link real do banner)*  
+  <img src="/Captura%20de%20Tela%202025-04-24%20às%2015.03.36.png" alt="Banner João Pessoa" width="600"> *(Substitua pelo link real do banner)*  
 </p>
 
 ## 🌊 **Viva ou Invista no Litoral Nordestino**  
