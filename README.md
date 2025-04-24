@@ -784,7 +784,7 @@
                     <p>Nosso modelo mais espaçoso, com dois ambientes distintos e varanda ampla.</p>
                 </div>
             </div>
-            
+        
             <div class="feature-card">
                 <img src="0028.jpg" alt="Áreas comuns">
                 <div class="feature-content">
