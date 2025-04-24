@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOSS - O equilíbrio perfeito entre o urbano e a natureza</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -117,7 +118,7 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Capturadetela2025-04-24as15.33.45.png') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/Capturadetela2025-04-24as15.33.45.png') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -424,49 +425,56 @@
             margin-top: 3rem;
         }
         
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+        .simulation-form .form-group {
+            margin-bottom: 1rem;
         }
         
-        .form-row select {
+        .simulation-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .simulation-form input, 
+        .simulation-form select {
+            width: 100%;
             padding: 0.8rem;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
         }
         
-        .results {
-            margin-top: 2rem;
-            padding: 1.5rem;
+        .value-display {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .value-display span {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 150px;
+        }
+        
+        .percent {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
             background-color: #f8f9fa;
             border-radius: 5px;
-            display: none;
         }
         
-        .results h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        
-        .results-table th,
-        .results-table td {
-            padding: 0.8rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .results-table th {
+        .total-row {
             background-color: var(--primary-color);
             color: white;
+            font-weight: bold;
+            margin-top: 1rem;
         }
         
         /* FAQ Section */
@@ -720,28 +728,28 @@
                     <img src="imagens/0003.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0018.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0018.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0019.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0019.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0020.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0020.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0021.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0021.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0022.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0022.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0023.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0023.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0030.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0030.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
                 <div class="mosaic-item">
-                    <img src="0031.jpg" alt="Imagem do empreendimento MOSS">
+                    <img src="imagens/0031.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
             </div>
         </div>
@@ -754,7 +762,7 @@
         
         <div class="features-grid">
             <div class="feature-card">
-                <img src="0024.jpg" alt="Flat 20m²">
+                <img src="imagens/0024.jpg" alt="Flat 20m²">
                 <div class="feature-content">
                     <h3>Flat 20m²</h3>
                     <p>O espaço ideal para quem busca praticidade sem abrir mão do conforto. Perfeito para solteiros ou casais.</p>
@@ -762,7 +770,7 @@
             </div>
             
             <div class="feature-card">
-                <img src="0025.jpg" alt="Flat 25m²">
+                <img src="imagens/0025.jpg" alt="Flat 25m²">
                 <div class="feature-content">
                     <h3>Flat 25m²</h3>
                     <p>Um pouco mais espaçoso, com área gourmet e layout inteligente que maximiza o espaço.</p>
@@ -770,7 +778,7 @@
             </div>
             
             <div class="feature-card">
-                <img src="0026.jpg" alt="Flat 30m²">
+                <img src="imagens/0026.jpg" alt="Flat 30m²">
                 <div class="feature-content">
                     <h3>Flat 30m²</h3>
                     <p>Para quem deseja mais espaço e conforto, com área de lazer integrada e varanda gourmet.</p>
@@ -778,15 +786,15 @@
             </div>
             
             <div class="feature-card">
-                <img src="0027.jpg" alt="Flat 34m²">
+                <img src="imagens/0027.jpg" alt="Flat 34m²">
                 <div class="feature-content">
                     <h3>Flat 34m²</h3>
                     <p>Nosso modelo mais espaçoso, com dois ambientes distintos e varanda ampla.</p>
                 </div>
             </div>
-        
+            
             <div class="feature-card">
-                <img src="0028.jpg" alt="Áreas comuns">
+                <img src="imagens/0028.jpg" alt="Áreas comuns">
                 <div class="feature-content">
                     <h3>Áreas Comuns</h3>
                     <p>Espaços de lazer e convivência projetados para seu bem-estar e qualidade de vida.</p>
@@ -794,7 +802,7 @@
             </div>
             
             <div class="feature-card">
-                <img src="0029.jpg" alt="Vista privilegiada">
+                <img src="imagens/0029.jpg" alt="Vista privilegiada">
                 <div class="feature-content">
                     <h3>Vista Privilegiada</h3>
                     <p>Aproveite vistas incríveis da cidade e do mar em alguns de nossos flats.</p>
@@ -810,7 +818,7 @@
             <p>O MOSS está situado em uma das áreas mais valorizadas da cidade, com fácil acesso a todas as regiões e próximo aos principais pontos de interesse.</p>
             
             <div class="location-map">
-                <img src="0011.jpg" alt="Localização do empreendimento MOSS">
+                <img src="imagens/0011.jpg" alt="Localização do empreendimento MOSS">
             </div>
         </div>
     </section>
@@ -822,79 +830,90 @@
             <p>Preencha os campos abaixo para simular as condições de aquisição do seu flat no MOSS.</p>
             
             <div class="simulation-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="unidade">Unidade</label>
-                        <select id="unidade">
-                            <option value="">Selecione uma unidade</option>
-                            <option value="101">101 - 34,01 m² - SUL</option>
-                            <option value="102">102 - 27,28 m² - SUL</option>
-                            <option value="103">103 - 27,98 m² - SUL</option>
-                            <option value="104">104 - 32,06 m² - SUL</option>
-                            <option value="105">105 - 33,58 m² - NASC/SUL</option>
-                            <option value="106">106 - 24,27 m² - NASCENTE</option>
-                            <option value="107">107 - 24,65 m² - NASCENTE</option>
-                            <option value="108">108 - 30,11 m² - NASC/NORTE</option>
-                            <option value="201">201 - 34,01 m² - SUL</option>
-                            <option value="202">202 - 27,28 m² - SUL</option>
-                            <option value="203">203 - 27,98 m² - SUL</option>
-                            <option value="204">204 - 32,06 m² - SUL</option>
-                            <option value="205">205 - 33,58 m² - NASC/SUL</option>
-                            <option value="206">206 - 24,27 m² - NASCENTE</option>
-                            <option value="207">207 - 24,65 m² - NASCENTE</option>
-                            <option value="208">208 - 32,84 m² - NASC/NORTE</option>
-                            <option value="209">209 - 21,06 m² - NORTE</option>
-                            <option value="210">210 - 21,67 m² - NORTE</option>
-                            <option value="211">211 - 22,10 m² - NORTE</option>
-                            <option value="212">212 - 30,27 m² - NORTE</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="metragem">Metragem</label>
-                        <select id="metragem">
-                            <option value="">Selecione a metragem</option>
-                            <option value="20-25">20 a 25 m²</option>
-                            <option value="26-34">26 a 34 m²</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="unidade">Selecione a Unidade</label>
+                    <select id="unidade">
+                        <option value="">Selecione uma unidade</option>
+                        <option value="101" data-metragem="34.01" data-valor="475842.41">101 - 34,01 m² - SUL</option>
+                        <option value="102" data-metragem="27.28" data-valor="392320.50">102 - 27,28 m² - SUL</option>
+                        <option value="103" data-metragem="27.98" data-valor="402387.38">103 - 27,98 m² - SUL</option>
+                        <option value="104" data-metragem="32.06" data-valor="461062.88">104 - 32,06 m² - SUL</option>
+                        <option value="105" data-metragem="33.58" data-valor="481285.35">105 - 33,58 m² - NASC/SUL</option>
+                        <option value="106" data-metragem="24.27" data-valor="354948.75">106 - 24,27 m² - NASCENTE</option>
+                        <option value="107" data-metragem="24.65" data-valor="360506.25">107 - 24,65 m² - NASCENTE</option>
+                        <option value="108" data-metragem="30.11" data-valor="447698.06">108 - 30,11 m² - NASC/NORTE</option>
+                        <option value="201" data-metragem="34.01" data-valor="488043.50">201 - 34,01 m² - SUL</option>
+                        <option value="202" data-metragem="27.28" data-valor="402380.00">202 - 27,28 m² - SUL</option>
+                        <option value="203" data-metragem="27.98" data-valor="412705.00">203 - 27,98 m² - SUL</option>
+                        <option value="204" data-metragem="32.06" data-valor="472885.00">204 - 32,06 m² - SUL</option>
+                        <option value="205" data-metragem="33.58" data-valor="493626.00">205 - 33,58 m² - NASC/SUL</option>
+                        <option value="206" data-metragem="24.27" data-valor="364050.00">206 - 24,27 m² - NASCENTE</option>
+                        <option value="207" data-metragem="24.65" data-valor="369750.00">207 - 24,65 m² - NASCENTE</option>
+                        <option value="208" data-metragem="32.84" data-valor="500810.00">208 - 32,84 m² - NASC/NORTE</option>
+                        <option value="209" data-metragem="21.06" data-valor="299989.17">209 - 21,06 m² - NORTE</option>
+                        <option value="210" data-metragem="21.67" data-valor="302296.50">210 - 21,67 m² - NORTE</option>
+                        <option value="211" data-metragem="22.10" data-valor="308295.00">211 - 22,10 m² - NORTE</option>
+                        <option value="212" data-metragem="30.27" data-valor="446482.50">212 - 30,27 m² - NORTE</option>
+                    </select>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="entrada">Valor de Entrada (mínimo 10%)</label>
-                        <input type="number" id="entrada" placeholder="Digite o valor da entrada">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="parcelas">Número de Parcelas (até 48x)</label>
-                        <select id="parcelas">
-                            <option value="12">12x</option>
-                            <option value="24">24x</option>
-                            <option value="36">36x</option>
-                            <option value="48">48x</option>
-                        </select>
-                    </div>
+                <div class="value-display">
+                    <span>Valor Total do Imóvel:</span>
+                    <span id="valor-imovel">R$ 0,00</span>
                 </div>
                 
-                <button id="calcular" class="submit-btn">Calcular</button>
-                
-                <div class="results" id="results">
-                    <h3>Resultado da Simulação</h3>
-                    <table class="results-table">
-                        <thead>
-                            <tr>
-                                <th>Descrição</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody id="results-body">
-                            <!-- Os resultados serão inseridos aqui via JavaScript -->
-                        </tbody>
-                    </table>
-                    
-                    <button id="enviar-simulacao" class="submit-btn" style="margin-top: 1rem;">Enviar Simulação</button>
+                <div class="form-group">
+                    <label for="entrada">Entrada (mínimo 10% do valor do imóvel)</label>
+                    <input type="number" id="entrada" placeholder="Digite o valor da entrada">
+                    <span id="percentual-entrada" class="percent">0%</span>
                 </div>
+                
+                <div class="value-display">
+                    <span>Parcelamento:</span>
+                    <span>48x</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parcela">Valor da Parcela Mensal</label>
+                    <input type="number" id="parcela" placeholder="Digite o valor da parcela">
+                    <span id="percentual-parcela" class="percent">0%</span>
+                </div>
+                
+                <div class="value-display">
+                    <span>Total das Parcelas (48x):</span>
+                    <span id="total-parcelas">R$ 0,00</span>
+                    <span id="percentual-total-parcelas" class="percent">0%</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="intercalada">Intercaladas</label>
+                    <input type="number" id="intercalada" placeholder="Digite o valor das intercaladas">
+                    <span id="percentual-intercalada" class="percent">0%</span>
+                </div>
+                
+                <div class="calculation-row">
+                    <span>Subtotal antes das chaves:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                    <span id="percentual-subtotal" class="percent">0%</span>
+                </div>
+                
+                <div class="calculation-row">
+                    <span>Chaves:</span>
+                    <span id="chaves">R$ 0,00</span>
+                    <span id="percentual-chaves" class="percent">0%</span>
+                </div>
+                
+                <div class="calculation-row total-row">
+                    <span>Total Financiado:</span>
+                    <span id="total-financiado">R$ 0,00</span>
+                    <span id="percentual-total" class="percent">0%</span>
+                </div>
+                
+                <div id="aviso-minimo" style="color: red; margin: 1rem 0; display: none;">
+                    Atenção: O valor total financiado deve ser no mínimo 47% do valor do imóvel.
+                </div>
+                
+                <button id="enviar-simulacao" class="submit-btn">Enviar Simulação</button>
             </div>
         </div>
     </section>
@@ -1115,142 +1134,129 @@
             });
         });
         
-        // Simulation Calculator
-        const calcularBtn = document.getElementById('calcular');
-        const enviarSimulacaoBtn = document.getElementById('enviar-simulacao');
-        const results = document.getElementById('results');
-        const resultsBody = document.getElementById('results-body');
+        // Simulador de Imóvel
+        const unidadeSelect = document.getElementById('unidade');
+        const valorImovelDisplay = document.getElementById('valor-imovel');
+        const entradaInput = document.getElementById('entrada');
+        const percentualEntrada = document.getElementById('percentual-entrada');
+        const parcelaInput = document.getElementById('parcela');
+        const percentualParcela = document.getElementById('percentual-parcela');
+        const totalParcelasDisplay = document.getElementById('total-parcelas');
+        const percentualTotalParcelas = document.getElementById('percentual-total-parcelas');
+        const intercaladaInput = document.getElementById('intercalada');
+        const percentualIntercalada = document.getElementById('percentual-intercalada');
+        const subtotalDisplay = document.getElementById('subtotal');
+        const percentualSubtotal = document.getElementById('percentual-subtotal');
+        const chavesDisplay = document.getElementById('chaves');
+        const percentualChaves = document.getElementById('percentual-chaves');
+        const totalFinanciadoDisplay = document.getElementById('total-financiado');
+        const percentualTotal = document.getElementById('percentual-total');
+        const avisoMinimo = document.getElementById('aviso-minimo');
         
-        calcularBtn.addEventListener('click', () => {
-            const unidade = document.getElementById('unidade').value;
-            const metragem = document.getElementById('metragem').value;
-            const entrada = parseFloat(document.getElementById('entrada').value);
-            const parcelas = parseInt(document.getElementById('parcelas').value);
+        let valorImovel = 0;
+        
+        // Atualizar quando selecionar a unidade
+        unidadeSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            valorImovel = parseFloat(selectedOption.getAttribute('data-valor'));
+            valorImovelDisplay.textContent = formatCurrency(valorImovel);
             
-            if (!unidade || !metragem || isNaN(entrada) || isNaN(parcelas)) {
-                alert('Por favor, preencha todos os campos corretamente.');
-                return;
-            }
-            
-            // Encontrar os dados da unidade selecionada
-            let valorImovel, mensalidade, intercalada;
-            
-            if (metragem === '20-25') {
-                mensalidade = 1400;
-                intercalada = 8000;
-                
-                // Ajustar valores conforme a unidade selecionada
-                if (unidade === '101' || unidade === '201' || unidade === '301') {
-                    valorImovel = 475842.41;
-                } else if (unidade === '102' || unidade === '202' || unidade === '302') {
-                    valorImovel = 392320.50;
-                } else if (unidade === '103' || unidade === '203' || unidade === '303') {
-                    valorImovel = 402387.38;
-                } else if (unidade === '104' || unidade === '204' || unidade === '304') {
-                    valorImovel = 461062.88;
-                } else if (unidade === '105' || unidade === '205' || unidade === '305') {
-                    valorImovel = 481285.35;
-                } else if (unidade === '106' || unidade === '206' || unidade === '306') {
-                    valorImovel = 354948.75;
-                } else if (unidade === '107' || unidade === '207' || unidade === '307') {
-                    valorImovel = 360506.25;
-                } else if (unidade === '108' || unidade === '208' || unidade === '308') {
-                    valorImovel = 447698.06;
-                } else if (unidade === '209') {
-                    valorImovel = 299989.17;
-                } else if (unidade === '210' || unidade === '211') {
-                    valorImovel = 302296.50;
-                } else if (unidade === '212') {
-                    valorImovel = 446482.50;
-                }
-            } else {
-                mensalidade = 2000;
-                intercalada = 10000;
-                
-                // Ajustar valores conforme a unidade selecionada
-                if (unidade === '101' || unidade === '201' || unidade === '301') {
-                    valorImovel = 475842.41;
-                } else if (unidade === '102' || unidade === '202' || unidade === '302') {
-                    valorImovel = 392320.50;
-                } else if (unidade === '103' || unidade === '203' || unidade === '303') {
-                    valorImovel = 402387.38;
-                } else if (unidade === '104' || unidade === '204' || unidade === '304') {
-                    valorImovel = 461062.88;
-                } else if (unidade === '105' || unidade === '205' || unidade === '305') {
-                    valorImovel = 481285.35;
-                } else if (unidade === '106' || unidade === '206' || unidade === '306') {
-                    valorImovel = 354948.75;
-                } else if (unidade === '107' || unidade === '207' || unidade === '307') {
-                    valorImovel = 360506.25;
-                } else if (unidade === '108' || unidade === '208' || unidade === '308') {
-                    valorImovel = 447698.06;
-                } else if (unidade === '209') {
-                    valorImovel = 299989.17;
-                } else if (unidade === '210' || unidade === '211') {
-                    valorImovel = 302296.50;
-                } else if (unidade === '212') {
-                    valorImovel = 446482.50;
-                }
-            }
-            
-            // Verificar se a entrada é pelo menos 10% do valor do imóvel
-            const entradaMinima = valorImovel * 0.1;
-            
-            if (entrada < entradaMinima) {
-                alert(`O valor mínimo de entrada é R$ ${entradaMinima.toFixed(2)} (10% do valor do imóvel)`);
-                return;
-            }
-            
-            // Calcular valores
-            const totalParcelas = mensalidade * parcelas;
-            const totalPago = entrada + totalParcelas + intercalada;
-            const percentualPago = (totalPago / valorImovel) * 100;
-            const saldoDevedor = valorImovel - totalPago;
-            
-            // Verificar se o percentual pago é pelo menos 47%
-            if (percentualPago < 47) {
-                alert(`O valor total pago deve ser pelo menos 47% do valor do imóvel. Atualmente é ${percentualPago.toFixed(2)}%. Aumente a entrada ou o número de parcelas.`);
-                return;
-            }
-            
-            // Exibir resultados
-            resultsBody.innerHTML = `
-                <tr>
-                    <td>Valor do Imóvel</td>
-                    <td>R$ ${valorImovel.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Entrada</td>
-                    <td>R$ ${entrada.toFixed(2)} (${((entrada / valorImovel) * 100).toFixed(2)}%)</td>
-                </tr>
-                <tr>
-                    <td>Mensalidade (${parcelas}x)</td>
-                    <td>R$ ${mensalidade.toFixed(2)} (Total: R$ ${totalParcelas.toFixed(2)})</td>
-                </tr>
-                <tr>
-                    <td>Intercaladas (8x)</td>
-                    <td>R$ ${intercalada.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Total Pago</td>
-                    <td>R$ ${totalPago.toFixed(2)} (${percentualPago.toFixed(2)}%)</td>
-                </tr>
-                <tr>
-                    <td>Saldo Devedor</td>
-                    <td>R$ ${saldoDevedor.toFixed(2)}</td>
-                </tr>
-            `;
-            
-            results.style.display = 'block';
+            // Limpar outros campos
+            entradaInput.value = '';
+            parcelaInput.value = '';
+            intercaladaInput.value = '';
+            updateCalculations();
         });
         
-        enviarSimulacaoBtn.addEventListener('click', () => {
-            const unidade = document.getElementById('unidade');
-            const unidadeText = unidade.options[unidade.selectedIndex].text;
-            const resultsText = resultsBody.innerText;
+        // Atualizar cálculos quando qualquer valor mudar
+        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
+        
+        function updateCalculations() {
+            // Obter valores dos inputs
+            const entrada = parseFloat(entradaInput.value) || 0;
+            const parcela = parseFloat(parcelaInput.value) || 0;
+            const intercalada = parseFloat(intercaladaInput.value) || 0;
             
-            const whatsappUrl = `https://wa.me/5521980081646?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20a%20simulação%20realizada:%0A%0AUnidade:%20${encodeURIComponent(unidadeText)}%0A%0A${encodeURIComponent(resultsText)}`;
+            // Verificar entrada mínima
+            const entradaMinima = valorImovel * 0.1;
+            if (entrada > 0 && entrada < entradaMinima) {
+                alert(`A entrada mínima é de R$ ${formatCurrency(entradaMinima)} (10% do valor do imóvel)`);
+                entradaInput.value = '';
+                return;
+            }
             
+            // Calcular totais
+            const totalParcelas = parcela * 48;
+            const subtotal = entrada + totalParcelas + intercalada;
+            const chaves = valorImovel - subtotal;
+            const totalFinanciado = subtotal;
+            
+            // Calcular percentuais
+            const percentEntrada = (entrada / valorImovel) * 100;
+            const percentParcela = (parcela / valorImovel) * 100;
+            const percentTotalParcelas = (totalParcelas / valorImovel) * 100;
+            const percentIntercalada = (intercalada / valorImovel) * 100;
+            const percentSubtotal = (subtotal / valorImovel) * 100;
+            const percentChaves = (chaves / valorImovel) * 100;
+            const percentTotal = (totalFinanciado / valorImovel) * 100;
+            
+            // Atualizar displays
+            percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
+            percentualParcela.textContent = percentParcela.toFixed(2) + '%';
+            totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
+            percentualTotalParcelas.textContent = percentTotalParcelas.toFixed(2) + '%';
+            percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
+            subtotalDisplay.textContent = formatCurrency(subtotal);
+            percentualSubtotal.textContent = percentSubtotal.toFixed(2) + '%';
+            chavesDisplay.textContent = formatCurrency(chaves);
+            percentualChaves.textContent = percentChaves.toFixed(2) + '%';
+            totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
+            percentualTotal.textContent = percentTotal.toFixed(2) + '%';
+            
+            // Verificar mínimo de 47%
+            if (percentTotal < 47 && percentTotal > 0) {
+                avisoMinimo.style.display = 'block';
+            } else {
+                avisoMinimo.style.display = 'none';
+            }
+        }
+        
+        function formatCurrency(value) {
+            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
+        }
+        
+        // Enviar simulação para WhatsApp
+        document.getElementById('enviar-simulacao').addEventListener('click', function() {
+            if (valorImovel === 0) {
+                alert('Por favor, selecione uma unidade primeiro.');
+                return;
+            }
+            
+            const unidade = unidadeSelect.options[unidadeSelect.selectedIndex].text;
+            const valorImovelText = valorImovelDisplay.textContent;
+            const entradaText = 'R$ ' + (entradaInput.value || '0') + ' (' + percentualEntrada.textContent + ')';
+            const parcelaText = 'R$ ' + (parcelaInput.value || '0') + ' (' + percentualParcela.textContent + ')';
+            const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
+            const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
+            const subtotalText = subtotalDisplay.textContent + ' (' + percentualSubtotal.textContent + ')';
+            const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
+            const totalText = totalFinanciadoDisplay.textContent + ' (' + percentualTotal.textContent + ')';
+            
+            const message = `Simulação de Imóvel - MOSS\n\n` +
+                            `Unidade: ${unidade}\n` +
+                            `Valor Total: ${valorImovelText}\n\n` +
+                            `Entrada: ${entradaText}\n` +
+                            `Parcela: ${parcelaText}\n` +
+                            `Total Parcelas (48x): ${totalParcelasText}\n` +
+                            `Intercaladas: ${intercaladaText}\n\n` +
+                            `Subtotal antes das chaves: ${subtotalText}\n` +
+                            `Chaves: ${chavesText}\n\n` +
+                            `TOTAL FINANCIADO: ${totalText}\n\n` +
+                            `Por favor, entre em contato para mais informações.`;
+            
+            const whatsappUrl = `https://wa.me/5521980081646?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
             
             // Mostrar modal de sucesso
