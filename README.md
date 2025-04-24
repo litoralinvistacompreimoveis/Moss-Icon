@@ -1,4 +1,11 @@
-# 🌇🌊🏢 Litoral Invista | Empreendimentos Imobiliários em João Pessoa  
+# <svg width="64" height="64" viewBox="0 0 64 64">
+  <!-- Fundo do sol -->
+  <circle cx="32" cy="20" r="15" fill="#FFD700"/>
+  <!-- Edifício -->
+  <rect x="20" y="25" width="24" height="30" fill="#1E90FF"/>
+  <!-- Onda -->
+  <path d="M10,50 Q32,45 54,50 L54,60 Q32,55 10,60 Z" fill="#87CEEB"/>
+</svg> Litoral Invista | Empreendimentos Imobiliários em João Pessoa  
 
 <p align="center">
   <img src="https://example.com/banner-jp.jpg" alt="Banner João Pessoa" width="600"> *(Substitua pelo link real do banner)*  
