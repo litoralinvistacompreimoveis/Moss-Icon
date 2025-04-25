@@ -1309,8 +1309,6 @@
     </div>
     
     <script>
-
-
 // Modal de Imagem
 const imageModal = document.getElementById('imageModal');
 const expandedImg = document.getElementById('expandedImg');
@@ -1344,65 +1342,62 @@ window.addEventListener('click', (e) => {
     }
 });
 
+// Menu Hamburguer - Sempre visível
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
 
-
+hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
     
-        // Menu Hamburguer - Sempre visível
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
+    // Adiciona/remove classe no body para evitar scroll quando menu está aberto
+    document.body.classList.toggle('no-scroll');
+});
+
+// Fechar menu ao clicar em um link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    });
+});
+
+// Smooth Scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
         
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
-            
-            // Adiciona/remove classe no body para evitar scroll quando menu está aberto
-            document.body.classList.toggle('no-scroll');
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
         });
+    });
+});
+
+// FAQ Accordion
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentNode;
+        item.classList.toggle('active');
         
-        // Fechar menu ao clicar em um link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-            });
-        });
-        
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                window.scrollTo({
-                    top: targetElement.offsetTop - 70,
-                    behavior: 'smooth'
-                });
-            });
-        });
-        
-        // FAQ Accordion
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentNode;
-                item.classList.toggle('active');
-                
-                const icon = question.querySelector('i');
-                if (item.classList.contains('active')) {
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                } else {
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                }
-            });
-        });
-        
-        // Simulador de Imóvel - Código Revisado
+        const icon = question.querySelector('i');
+        if (item.classList.contains('active')) {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        } else {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        }
+    });
+});
+
+// Simulador de Imóvel - Código Revisado
 const unidadeSelect = document.getElementById('unidade');
 const valorImovelDisplay = document.getElementById('valor-imovel');
 const statusImovelDisplay = document.getElementById('status-imovel');
@@ -1437,6 +1432,18 @@ verPreviaBtn.addEventListener('click', verPreviaCalculo);
 
 // Inserir botão antes do botão "Enviar Simulação"
 enviarSimulacaoBtn.parentNode.insertBefore(verPreviaBtn, enviarSimulacaoBtn);
+
+// Adicionar validação de entrada no evento blur
+entradaInput.addEventListener('blur', function() {
+    const entrada = parseFloat(this.value) || 0;
+    
+    // Verificar se a entrada é menor que 10% apenas quando o campo perde o foco
+    if (entrada > 0 && entrada < valorImovel * 0.1) {
+        alert('A entrada mínima deve ser de 10% do valor do imóvel (' + formatCurrency(valorImovel * 0.1) + ').');
+        this.value = (valorImovel * 0.1).toFixed(2);
+        updateCalculations();
+    }
+});
 
 // Atualizar quando selecionar a unidade
 unidadeSelect.addEventListener('change', function() {
@@ -1507,13 +1514,6 @@ function updateCalculations() {
     const entrada = parseFloat(entradaInput.value) || 0;
     const parcela = parseFloat(parcelaInput.value) || 0;
     const intercalada = parseFloat(intercaladaInput.value) || 0;
-    
-    // Verificar se a entrada é menor que 10%
-    if (entrada > 0 && entrada < valorImovel * 0.1) {
-        alert('A entrada mínima deve ser de 10% do valor do imóvel.');
-        entradaInput.value = (valorImovel * 0.1).toFixed(2);
-        return;
-    }
     
     // Calcular totais
     const totalParcelas = parcela * 48;
@@ -1628,6 +1628,86 @@ enviarSimulacaoBtn.addEventListener('click', function() {
     // Mostrar modal de sucesso
     document.getElementById('modal').style.display = 'flex';
 });
+
+// Formulário de Contato
+const formContato = document.getElementById('form-contato');
+
+formContato.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const telefone = document.getElementById('telefone').value;
+    const mensagem = document.getElementById('mensagem').value;
+    
+    const whatsappUrl = `https://wa.me/5521980081646?text=Olá,%20meu%20nome%20é%20${encodeURIComponent(nome)}.%20Gostaria%20de%20mais%20informações%20sobre%20o%20MOSS.%0A%0AE-mail:%20${encodeURIComponent(email)}%0ATelefone:%20${encodeURIComponent(telefone)}%0A%0AMensagem:%20${encodeURIComponent(mensagem)}`;
+    
+    window.open(whatsappUrl, '_blank');
+    
+    // Mostrar modal de sucesso
+    document.getElementById('modal').style.display = 'flex';
+    
+    // Limpar formulário
+    formContato.reset();
+});
+
+// Fechar Modal
+const modal = document.getElementById('modal');
+const closeModal = document.querySelector('.close-modal');
+
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Atualizar header ao rolar
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        document.querySelector('header').style.background = 'rgba(255, 255, 255, 0.98)';
+        document.querySelector('header').style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+    } else {
+        document.querySelector('header').style.background = 'rgba(255, 255, 255, 0.9)';
+        document.querySelector('header').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    }
+});
+
+// Galeria de Imagens - Veja mais
+const loadMoreBtn = document.querySelector('.load-more');
+const mosaicItems = document.querySelectorAll('.mosaic-item');
+let itemsToShow = 9;
+
+// Mostrar apenas as primeiras 9 imagens inicialmente
+mosaicItems.forEach((item, index) => {
+    if (index >= itemsToShow) {
+        item.style.display = 'none';
+    }
+});
+
+loadMoreBtn.addEventListener('click', () => {
+    itemsToShow += 4; // Mostrar mais 4 imagens a cada clique
+    
+    // Mostrar itens adicionais
+    mosaicItems.forEach((item, index) => {
+        if (index < itemsToShow) {
+            item.style.display = 'block';
+        }
+    });
+    
+    // Esconder o botão se todas as imagens estiverem visíveis
+    if (itemsToShow >= mosaicItems.length) {
+        loadMoreBtn.style.display = 'none';
+    }
+});
+
+
+
+
+
     </script>
 </body>
 </html>
