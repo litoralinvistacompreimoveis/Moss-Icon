@@ -1309,6 +1309,44 @@
     </div>
     
     <script>
+
+
+
+// Modal de Imagem
+const imageModal = document.getElementById('imageModal');
+const expandedImg = document.getElementById('expandedImg');
+const closeImageModal = document.querySelector('.image-modal .close-modal');
+
+// Adicionar evento de clique para cada imagem em todas as seções
+document.querySelectorAll('img').forEach(img => {
+    // Verificar se a imagem não é um ícone (Font Awesome) e não está no header/footer
+    if (!img.classList.contains('fa') && !img.closest('header') && !img.closest('footer')) {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+            expandedImg.src = this.src;
+            expandedImg.alt = this.alt;
+            imageModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+});
+
+// Fechar modal de imagem
+closeImageModal.addEventListener('click', () => {
+    imageModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+
+// Fechar modal de imagem ao clicar fora
+window.addEventListener('click', (e) => {
+    if (e.target === imageModal) {
+        imageModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+
+    
 // Simulador de Imóvel - Código Revisado
 const unidadeSelect = document.getElementById('unidade');
 const valorImovelDisplay = document.getElementById('valor-imovel');
