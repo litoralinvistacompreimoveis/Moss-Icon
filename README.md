@@ -1310,8 +1310,6 @@
     
     <script>
 
-
-
 // Modal de Imagem
 const imageModal = document.getElementById('imageModal');
 const expandedImg = document.getElementById('expandedImg');
@@ -1319,7 +1317,6 @@ const closeImageModal = document.querySelector('.image-modal .close-modal');
 
 // Adicionar evento de clique para cada imagem em todas as seções
 document.querySelectorAll('img').forEach(img => {
-    // Verificar se a imagem não é um ícone (Font Awesome) e não está no header/footer
     if (!img.classList.contains('fa') && !img.closest('header') && !img.closest('footer')) {
         img.style.cursor = 'pointer';
         img.addEventListener('click', function() {
@@ -1345,9 +1342,52 @@ window.addEventListener('click', (e) => {
     }
 });
 
-
+// Função para carregar mais itens em uma galeria
+function setupLoadMore(containerSelector, itemsSelector, initialCount = 9, increment = 4) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
     
-// Simulador de Imóvel - Código Revisado e Corrigido
+    const items = container.querySelectorAll(itemsSelector);
+    let itemsToShow = initialCount;
+    
+    // Mostrar apenas os itens iniciais
+    items.forEach((item, index) => {
+        item.style.display = index < itemsToShow ? 'block' : 'none';
+    });
+    
+    // Criar botão "Veja mais" se houver mais itens para mostrar
+    if (items.length > initialCount) {
+        const loadMoreBtn = document.createElement('button');
+        loadMoreBtn.className = 'load-more';
+        loadMoreBtn.textContent = 'Veja mais';
+        loadMoreBtn.style.display = 'block';
+        loadMoreBtn.style.margin = '20px auto';
+        
+        loadMoreBtn.addEventListener('click', () => {
+            itemsToShow += increment;
+            
+            // Mostrar itens adicionais
+            items.forEach((item, index) => {
+                if (index < itemsToShow) {
+                    item.style.display = 'block';
+                }
+            });
+            
+            // Esconder o botão se todas as imagens estiverem visíveis
+            if (itemsToShow >= items.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+        
+        container.appendChild(loadMoreBtn);
+    }
+}
+
+// Configurar "Veja mais" para as seções de galeria
+setupLoadMore('.gallery .mosaic', '.mosaic-item');
+setupLoadMore('.features-grid', '.feature-card');
+
+// Simulador de Imóvel - Código Revisado
 const unidadeSelect = document.getElementById('unidade');
 const valorImovelDisplay = document.getElementById('valor-imovel');
 const statusImovelDisplay = document.getElementById('status-imovel');
@@ -1368,11 +1408,8 @@ const percentualTotal = document.getElementById('percentual-total');
 const avisoMinimo = document.getElementById('aviso-minimo');
 const enviarSimulacaoBtn = document.getElementById('enviar-simulacao');
 
-// Remover o subtotal do DOM (se existir)
-const subtotalRow = document.querySelector('.calculation-row:first-of-type');
-if (subtotalRow) {
-    subtotalRow.parentNode.removeChild(subtotalRow);
-}
+// Alterar o nome do campo "Total Financiado"
+totalFinanciadoDisplay.previousElementSibling.textContent = 'Valor final a Financiar pós Chaves:';
 
 // Criar e posicionar o botão "Ver Prévia"
 const verPreviaBtn = document.createElement('button');
@@ -1443,6 +1480,7 @@ function resetCalculations() {
     percentualTotalIntercaladas.textContent = '0%';
     chavesDisplay.textContent = 'R$ 0,00';
     percentualChaves.textContent = '0%';
+    percentualChaves.style.color = ''; // Resetar cor
     totalFinanciadoDisplay.textContent = 'R$ 0,00';
     percentualTotal.textContent = '0%';
     avisoMinimo.style.display = 'none';
@@ -1491,8 +1529,17 @@ function verPreviaCalculo() {
     const percentChaves = (chaves / valorImovel) * 100;
     const percentTotal = (totalFinanciado / valorImovel) * 100;
     
+    // Atualizar displays
     chavesDisplay.textContent = formatCurrency(chaves);
     percentualChaves.textContent = percentChaves.toFixed(2) + '%';
+    
+    // Aplicar cor conforme percentual das chaves
+    if (percentChaves < 47) {
+        percentualChaves.style.color = 'red';
+    } else {
+        percentualChaves.style.color = '#1E90FF'; // Azul
+    }
+    
     totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
     percentualTotal.textContent = percentTotal.toFixed(2) + '%';
     
@@ -1536,13 +1583,12 @@ enviarSimulacaoBtn.addEventListener('click', function() {
                    `Intercalada: R$ ${intercaladaInput.value || '0'} (${percentualIntercalada.textContent})\n` +
                    `Total Intercaladas (8x): ${totalIntercaladasDisplay.textContent} (${percentualTotalIntercaladas.textContent})\n\n` +
                    `Chaves: ${chavesDisplay.textContent} (${percentualChaves.textContent})\n\n` +
-                   `TOTAL FINANCIADO: ${totalFinanciadoDisplay.textContent} (${percentualTotal.textContent})\n\n` +
+                   `Valor final a Financiar pós Chaves: ${totalFinanciadoDisplay.textContent} (${percentualTotal.textContent})\n\n` +
                    `Olá, segue minha simulação do meu imóvel, verifique por favor.`;
     
     const whatsappUrl = `https://wa.me/5521980081646?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 });
-
 
 
 
