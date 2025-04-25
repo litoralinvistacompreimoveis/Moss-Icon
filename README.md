@@ -1347,7 +1347,7 @@ window.addEventListener('click', (e) => {
 
 
     
-// Simulador de Imóvel - Código Revisado
+// Simulador de Imóvel - Código Revisado e Corrigido
 const unidadeSelect = document.getElementById('unidade');
 const valorImovelDisplay = document.getElementById('valor-imovel');
 const statusImovelDisplay = document.getElementById('status-imovel');
@@ -1368,33 +1368,31 @@ const percentualTotal = document.getElementById('percentual-total');
 const avisoMinimo = document.getElementById('aviso-minimo');
 const enviarSimulacaoBtn = document.getElementById('enviar-simulacao');
 
-// Remover o subtotal do DOM
+// Remover o subtotal do DOM (se existir)
 const subtotalRow = document.querySelector('.calculation-row:first-of-type');
-subtotalRow.parentNode.removeChild(subtotalRow);
+if (subtotalRow) {
+    subtotalRow.parentNode.removeChild(subtotalRow);
+}
 
-// Criar container para o botão Ver Prévia
-const previewButtonContainer = document.createElement('div');
-previewButtonContainer.style.textAlign = 'center';
-previewButtonContainer.style.margin = '20px 0';
-
-// Configurar botão "Ver Prévia"
+// Criar e posicionar o botão "Ver Prévia"
 const verPreviaBtn = document.createElement('button');
 verPreviaBtn.type = 'button';
 verPreviaBtn.textContent = 'Ver Prévia';
 verPreviaBtn.className = 'submit-btn';
+verPreviaBtn.style.margin = '20px auto';
+verPreviaBtn.style.display = 'block';
 verPreviaBtn.addEventListener('click', verPreviaCalculo);
 
-// Inserir o container com o botão após o total das intercaladas
-totalIntercaladasDisplay.closest('.value-display').parentNode.insertBefore(previewButtonContainer, totalIntercaladasDisplay.closest('.value-display').nextSibling);
-previewButtonContainer.appendChild(verPreviaBtn);
+// Inserir o botão após o total das intercaladas
+const intercaladasContainer = totalIntercaladasDisplay.closest('.value-display');
+intercaladasContainer.parentNode.insertBefore(verPreviaBtn, intercaladasContainer.nextSibling);
 
 let valorImovel = 0;
 
-// Adicionar validação de entrada no evento blur
+// Validação da entrada no evento blur
 entradaInput.addEventListener('blur', function() {
     const entrada = parseFloat(this.value) || 0;
     
-    // Verificar se a entrada é menor que 10% apenas quando o campo perde o foco
     if (entrada > 0 && entrada < valorImovel * 0.1) {
         alert('A entrada mínima deve ser de 10% do valor do imóvel (' + formatCurrency(valorImovel * 0.1) + ').');
         this.value = (valorImovel * 0.1).toFixed(2);
@@ -1402,16 +1400,10 @@ entradaInput.addEventListener('blur', function() {
     }
 });
 
-// Atualizar quando selecionar a unidade
+// Atualizar ao selecionar unidade
 unidadeSelect.addEventListener('change', function() {
     const selectedOption = this.options[this.selectedIndex];
     if (selectedOption.value === "") {
-        valorImovel = 0;
-        valorImovelDisplay.textContent = "R$ 0,00";
-        statusImovelDisplay.textContent = "";
-        entradaInput.value = '';
-        parcelaInput.value = '';
-        intercaladaInput.value = '';
         resetCalculations();
         return;
     }
@@ -1423,15 +1415,8 @@ unidadeSelect.addEventListener('change', function() {
     const status = selectedOption.getAttribute('data-status');
     
     valorImovelDisplay.textContent = formatCurrency(valorImovel);
-    
-    // Atualiza o status do imóvel
-    if (status === 'reservado') {
-        statusImovelDisplay.textContent = '(RESERVADO)';
-        statusImovelDisplay.className = 'status-reservado';
-    } else {
-        statusImovelDisplay.textContent = '(DISPONÍVEL)';
-        statusImovelDisplay.className = 'status-disponivel';
-    }
+    statusImovelDisplay.textContent = status === 'reservado' ? '(RESERVADO)' : '(DISPONÍVEL)';
+    statusImovelDisplay.className = status === 'reservado' ? 'status-reservado' : 'status-disponivel';
     
     entradaInput.value = entradaPadrao.toFixed(2);
     parcelaInput.value = parcelaPadrao.toFixed(2);
@@ -1440,8 +1425,15 @@ unidadeSelect.addEventListener('change', function() {
     updateCalculations();
 });
 
-// Função para resetar os cálculos
+// Funções auxiliares
 function resetCalculations() {
+    valorImovel = 0;
+    valorImovelDisplay.textContent = "R$ 0,00";
+    statusImovelDisplay.textContent = "";
+    entradaInput.value = '';
+    parcelaInput.value = '';
+    intercaladaInput.value = '';
+    
     percentualEntrada.textContent = '0%';
     percentualParcela.textContent = '0%';
     totalParcelasDisplay.textContent = 'R$ 0,00';
@@ -1454,73 +1446,58 @@ function resetCalculations() {
     totalFinanciadoDisplay.textContent = 'R$ 0,00';
     percentualTotal.textContent = '0%';
     avisoMinimo.style.display = 'none';
+    verPreviaBtn.disabled = true;
+    enviarSimulacaoBtn.disabled = true;
 }
 
-// Função para formatar valores monetários
 function formatCurrency(value) {
     return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
 }
 
-// Função para calcular e atualizar os valores
 function updateCalculations() {
     if (valorImovel === 0) return;
     
-    // Obter valores dos inputs
     const entrada = parseFloat(entradaInput.value) || 0;
     const parcela = parseFloat(parcelaInput.value) || 0;
     const intercalada = parseFloat(intercaladaInput.value) || 0;
     
-    // Calcular totais
     const totalParcelas = parcela * 48;
     const totalIntercaladas = intercalada * 8;
     
-    // Calcular percentuais
-    const percentEntrada = (entrada / valorImovel) * 100;
-    const percentParcela = (parcela / valorImovel) * 100;
-    const percentTotalParcelasCalc = (totalParcelas / valorImovel) * 100;
-    const percentIntercalada = (intercalada / valorImovel) * 100;
-    const percentTotalIntercaladasCalc = (totalIntercaladas / valorImovel) * 100;
-    
-    // Atualizar displays
-    percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
-    percentualParcela.textContent = percentParcela.toFixed(2) + '%';
+    percentualEntrada.textContent = ((entrada / valorImovel) * 100).toFixed(2) + '%';
+    percentualParcela.textContent = ((parcela / valorImovel) * 100).toFixed(2) + '%';
     totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
-    percentualTotalParcelas.textContent = percentTotalParcelasCalc.toFixed(2) + '%';
-    percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
+    percentualTotalParcelas.textContent = ((totalParcelas / valorImovel) * 100).toFixed(2) + '%';
+    percentualIntercalada.textContent = ((intercalada / valorImovel) * 100).toFixed(2) + '%';
     totalIntercaladasDisplay.textContent = formatCurrency(totalIntercaladas);
-    percentualTotalIntercaladas.textContent = percentTotalIntercaladasCalc.toFixed(2) + '%';
+    percentualTotalIntercaladas.textContent = ((totalIntercaladas / valorImovel) * 100).toFixed(2) + '%';
     
-    // Habilitar/desabilitar botão "Ver Prévia" se valores forem válidos
+    // Habilitar "Ver Prévia" apenas se todos os campos estiverem preenchidos
     verPreviaBtn.disabled = !(entrada > 0 && parcela > 0 && intercalada > 0);
 }
 
-// Função para ver prévia do cálculo (chaves e total restante)
 function verPreviaCalculo() {
     if (valorImovel === 0) return;
     
-    // Obter valores dos inputs
     const entrada = parseFloat(entradaInput.value) || 0;
     const parcela = parseFloat(parcelaInput.value) || 0;
     const intercalada = parseFloat(intercaladaInput.value) || 0;
     
-    // Calcular totais
     const totalParcelas = parcela * 48;
     const totalIntercaladas = intercalada * 8;
     const totalFinanciado = entrada + totalParcelas + totalIntercaladas;
     const chaves = valorImovel - totalFinanciado;
     
-    // Calcular percentuais
     const percentChaves = (chaves / valorImovel) * 100;
     const percentTotal = (totalFinanciado / valorImovel) * 100;
     
-    // Atualizar displays
     chavesDisplay.textContent = formatCurrency(chaves);
     percentualChaves.textContent = percentChaves.toFixed(2) + '%';
     totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
     percentualTotal.textContent = percentTotal.toFixed(2) + '%';
     
-    // Verificar mínimo de 47% para as chaves
-    if (percentChaves < 47 && percentChaves > 0) {
+    // Validar se chaves atingem o mínimo de 47%
+    if (percentChaves < 47) {
         avisoMinimo.style.display = 'block';
         avisoMinimo.textContent = 'Atenção: O valor das chaves deve ser no mínimo 47% do valor do imóvel. Aumente os valores de entrada, parcelas ou intercaladas.';
         enviarSimulacaoBtn.disabled = true;
@@ -1530,45 +1507,41 @@ function verPreviaCalculo() {
     }
 }
 
-// Atualizar cálculos quando qualquer valor mudar
+// Event listeners
 [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
     input.addEventListener('input', updateCalculations);
 });
 
-// Enviar simulação para WhatsApp
 enviarSimulacaoBtn.addEventListener('click', function() {
     if (valorImovel === 0) {
         alert('Por favor, selecione uma unidade primeiro.');
         return;
     }
     
+    if (enviarSimulacaoBtn.disabled) {
+        alert('Por favor, verifique os valores da simulação antes de enviar.');
+        return;
+    }
+    
     const unidade = unidadeSelect.options[unidadeSelect.selectedIndex].text;
     const valorImovelText = valorImovelDisplay.textContent;
     const statusText = statusImovelDisplay.textContent;
-    const entradaText = 'R$ ' + (entradaInput.value || '0') + ' (' + percentualEntrada.textContent + ')';
-    const parcelaText = 'R$ ' + (parcelaInput.value || '0') + ' (' + percentualParcela.textContent + ')';
-    const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
-    const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
-    const totalIntercaladasText = totalIntercaladasDisplay.textContent + ' (' + percentualTotalIntercaladas.textContent + ')';
-    const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
-    const totalText = totalFinanciadoDisplay.textContent + ' (' + percentualTotal.textContent + ')';
     
     const message = `Simulação de Imóvel - MOSS\n\n` +
-                    `Unidade: ${unidade}\n` +
-                    `Valor Total: ${valorImovelText} ${statusText}\n\n` +
-                    `Entrada: ${entradaText}\n` +
-                    `Parcela: ${parcelaText}\n` +
-                    `Total Parcelas (48x): ${totalParcelasText}\n` +
-                    `Intercalada: ${intercaladaText}\n` +
-                    `Total Intercaladas (8x): ${totalIntercaladasText}\n\n` +
-                    `Chaves: ${chavesText}\n\n` +
-                    `TOTAL FINANCIADO: ${totalText}\n\n` +
-                    `Olá, segue minha simulação do meu imóvel, verifique por favor.`;
+                   `Unidade: ${unidade}\n` +
+                   `Valor Total: ${valorImovelText} ${statusText}\n\n` +
+                   `Entrada: R$ ${entradaInput.value || '0'} (${percentualEntrada.textContent})\n` +
+                   `Parcela: R$ ${parcelaInput.value || '0'} (${percentualParcela.textContent})\n` +
+                   `Total Parcelas (48x): ${totalParcelasDisplay.textContent} (${percentualTotalParcelas.textContent})\n` +
+                   `Intercalada: R$ ${intercaladaInput.value || '0'} (${percentualIntercalada.textContent})\n` +
+                   `Total Intercaladas (8x): ${totalIntercaladasDisplay.textContent} (${percentualTotalIntercaladas.textContent})\n\n` +
+                   `Chaves: ${chavesDisplay.textContent} (${percentualChaves.textContent})\n\n` +
+                   `TOTAL FINANCIADO: ${totalFinanciadoDisplay.textContent} (${percentualTotal.textContent})\n\n` +
+                   `Olá, segue minha simulação do meu imóvel, verifique por favor.`;
     
     const whatsappUrl = `https://wa.me/5521980081646?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 });
-
 
 
 
