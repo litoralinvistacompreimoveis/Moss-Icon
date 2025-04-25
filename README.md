@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -41,17 +42,20 @@
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            height: 70px;
+            display: flex;
+            align-items: center;
         }
         
-        /* Header */
-.header-container {
-    display: flex;
-    justify-content: space-between; /* Alterar para flex-start */
-    align-items: center;
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         
         .logo {
             display: flex;
@@ -69,7 +73,7 @@
             color: var(--primary-color);
         }
         
-        /* Menu Hamburguer - Ajustado para desktop */
+        /* Menu Hamburguer - Sempre visível */
         .hamburger {
             display: block;
             cursor: pointer;
@@ -743,55 +747,6 @@
         }
         
         /* Media Queries */
-        @media (min-width: 992px) {
-            .hamburger {
-                display: none;
-            }
-            
-            .nav-links {
-                position: static;
-                width: auto;
-                height: auto;
-                background: transparent;
-                display: flex;
-                flex-direction: row;
-                padding-top: 0;
-                box-shadow: none;
-            }
-            
-            .nav-links::before {
-                display: none;
-            }
-            
-            .nav-links li {
-                margin: 0 1rem;
-            }
-            
-            .nav-links a {
-                color: var(--dark-color);
-            }
-            
-            .nav-links a:hover {
-                color: var(--primary-color);
-            }
-            
-            .nav-links a::after {
-                background: var(--primary-color);
-            }
-        }
-        
-        
-        /* No media query para desktop */
-@media (min-width: 992px) {
-    .header-container {
-        justify-content: flex-start; /* Alinha tudo à esquerda */
-    }
-    
-    .nav-links {
-        margin-left: auto; /* Empurra o menu para a direita */
-    }
-        
-        
         @media (max-width: 768px) {
             .header-container {
                 padding: 1rem;
@@ -1094,7 +1049,7 @@
                 
                 <div class="form-group">
                     <label for="entrada">Entrada (mínimo 10% do valor do imóvel)</label>
-                    <input type="number" id="entrada" placeholder="Digite o valor da entrada" oninput="updateCalculations()">
+                    <input type="text" id="entrada" placeholder="Digite o valor da entrada (ex: 50000 ou 50.000,00)" oninput="formatCurrencyInput(this); updateCalculations()">
                     <span id="percentual-entrada" class="percent">0%</span>
                 </div>
                 
@@ -1105,7 +1060,7 @@
                 
                 <div class="form-group">
                     <label for="parcela">Valor da Parcela Mensal</label>
-                    <input type="number" id="parcela" placeholder="Digite o valor da parcela" oninput="updateCalculations()">
+                    <input type="text" id="parcela" placeholder="Digite o valor da parcela (ex: 2000 ou 2.000,00)" oninput="formatCurrencyInput(this); updateCalculations()">
                     <span id="percentual-parcela" class="percent">0%</span>
                 </div>
                 
@@ -1117,7 +1072,7 @@
                 
                 <div class="form-group">
                     <label for="intercalada">Valor de cada Intercalada (8x)</label>
-                    <input type="number" id="intercalada" placeholder="Digite o valor de cada intercalada" oninput="updateCalculations()">
+                    <input type="text" id="intercalada" placeholder="Digite o valor de cada intercalada (ex: 10000 ou 10.000,00)" oninput="formatCurrencyInput(this); updateCalculations()">
                     <span id="percentual-intercalada" class="percent">0%</span>
                 </div>
                 
@@ -1401,6 +1356,48 @@
         
         let valorImovel = 0;
         
+        // Função para formatar valores monetários
+        function formatCurrency(value) {
+            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
+        }
+        
+        // Função para formatar input de valores monetários
+        function formatCurrencyInput(input) {
+            // Remove tudo que não é número ou vírgula
+            let value = input.value.replace(/[^\d,]/g, '');
+            
+            // Se houver mais de uma vírgula, mantém apenas a última
+            const commaCount = value.split(',').length - 1;
+            if (commaCount > 1) {
+                const lastCommaIndex = value.lastIndexOf(',');
+                value = value.substring(0, lastCommaIndex).replace(/,/g, '') + value.substring(lastCommaIndex);
+            }
+            
+            // Se houver vírgula, limita a 2 casas decimais
+            if (value.includes(',')) {
+                const parts = value.split(',');
+                if (parts[1].length > 2) {
+                    parts[1] = parts[1].substring(0, 2);
+                    value = parts[0] + ',' + parts[1];
+                }
+            }
+            
+            // Adiciona separadores de milhar
+            if (value.length > 0) {
+                let parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            }
+            
+            input.value = value;
+        }
+        
+        // Função para converter valor formatado para número
+        function parseCurrency(value) {
+            if (!value) return 0;
+            return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+        }
+        
         // Atualizar quando selecionar a unidade
         unidadeSelect.addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
@@ -1431,30 +1428,52 @@
                 statusImovelDisplay.className = 'status-disponivel';
             }
             
-            entradaInput.value = entradaPadrao.toFixed(2);
-            parcelaInput.value = parcelaPadrao.toFixed(2);
-            intercaladaInput.value = intercaladaPadrao.toFixed(2);
+            entradaInput.value = entradaPadrao.toFixed(2).replace('.', ',');
+            parcelaInput.value = parcelaPadrao.toFixed(2).replace('.', ',');
+            intercaladaInput.value = intercaladaPadrao.toFixed(2).replace('.', ',');
             
             updateCalculations();
         });
         
-        // Função para formatar valores monetários
-        function formatCurrency(value) {
-            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
-        }
-        
         // Função para calcular e atualizar os valores
         function updateCalculations() {
             // Obter valores dos inputs
-            const entrada = parseFloat(entradaInput.value) || 0;
-            const parcela = parseFloat(parcelaInput.value) || 0;
-            const intercalada = parseFloat(intercaladaInput.value) || 0;
+            const entrada = parseCurrency(entradaInput.value);
+            const parcela = parseCurrency(parcelaInput.value);
+            const intercalada = parseCurrency(intercaladaInput.value);
             
             // Calcular totais
             const totalParcelas = parcela * 48;
             const totalIntercaladas = intercalada * 8;
             const subtotal = entrada + totalParcelas + totalIntercaladas;
-            const chaves = valorImovel - subtotal;
+            
+            // Garante que as chaves sejam pelo menos 47% do valor do imóvel
+            const chavesMinimas = valorImovel * 0.47;
+            let chaves = valorImovel - subtotal;
+            
+            // Se o valor das chaves for menor que 47%, ajusta o subtotal
+            if (chaves < chavesMinimas && valorImovel > 0) {
+                chaves = chavesMinimas;
+                const novoSubtotal = valorImovel - chaves;
+                
+                // Recalcula os valores proporcionalmente
+                const proporcaoEntrada = entrada / subtotal;
+                const proporcaoParcelas = (totalParcelas) / subtotal;
+                const proporcaoIntercaladas = (totalIntercaladas) / subtotal;
+                
+                const novaEntrada = novoSubtotal * proporcaoEntrada;
+                const novoTotalParcelas = novoSubtotal * proporcaoParcelas;
+                const novoTotalIntercaladas = novoSubtotal * proporcaoIntercaladas;
+                
+                // Atualiza os inputs
+                entradaInput.value = novaEntrada.toFixed(2).replace('.', ',');
+                parcelaInput.value = (novoTotalParcelas / 48).toFixed(2).replace('.', ',');
+                intercaladaInput.value = (novoTotalIntercaladas / 8).toFixed(2).replace('.', ',');
+                
+                // Recalcula com os novos valores
+                return updateCalculations();
+            }
+            
             const totalFinanciado = subtotal;
             
             // Calcular percentuais
@@ -1492,7 +1511,12 @@
         
         // Atualizar cálculos quando qualquer valor mudar
         [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
-            input.addEventListener('input', updateCalculations);
+            input.addEventListener('input', function() {
+                // Formata o valor enquanto digita
+                formatCurrencyInput(this);
+                // Atualiza os cálculos
+                updateCalculations();
+            });
         });
         
         // Enviar simulação para WhatsApp
@@ -1505,10 +1529,10 @@
             const unidade = unidadeSelect.options[unidadeSelect.selectedIndex].text;
             const valorImovelText = valorImovelDisplay.textContent;
             const statusText = statusImovelDisplay.textContent;
-            const entradaText = 'R$ ' + (entradaInput.value || '0') + ' (' + percentualEntrada.textContent + ')';
-            const parcelaText = 'R$ ' + (parcelaInput.value || '0') + ' (' + percentualParcela.textContent + ')';
+            const entradaText = 'R$ ' + (entradaInput.value || '0,00') + ' (' + percentualEntrada.textContent + ')';
+            const parcelaText = 'R$ ' + (parcelaInput.value || '0,00') + ' (' + percentualParcela.textContent + ')';
             const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
-            const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
+            const intercaladaText = 'R$ ' + (intercaladaInput.value || '0,00') + ' (' + percentualIntercalada.textContent + ')';
             const totalIntercaladasText = totalIntercaladasDisplay.textContent + ' (' + percentualTotalIntercaladas.textContent + ')';
             const subtotalText = subtotalDisplay.textContent + ' (' + percentualSubtotal.textContent + ')';
             const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
