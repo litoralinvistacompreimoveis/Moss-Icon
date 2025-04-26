@@ -1309,289 +1309,321 @@
     </div>
     
     <script>
-
-// Modal de Imagem
-const imageModal = document.getElementById('imageModal');
-const expandedImg = document.getElementById('expandedImg');
-const closeImageModal = document.querySelector('.image-modal .close-modal');
-
-// Adicionar evento de clique para cada imagem em todas as seções
-document.querySelectorAll('img').forEach(img => {
-    if (!img.classList.contains('fa') && !img.closest('header') && !img.closest('footer')) {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            expandedImg.src = this.src;
-            expandedImg.alt = this.alt;
-            imageModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        // Menu Hamburguer - Sempre visível
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // Adiciona/remove classe no body para evitar scroll quando menu está aberto
+            document.body.classList.toggle('no-scroll');
         });
-    }
-});
-
-// Fechar modal de imagem
-closeImageModal.addEventListener('click', () => {
-    imageModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
-
-// Fechar modal de imagem ao clicar fora
-window.addEventListener('click', (e) => {
-    if (e.target === imageModal) {
-        imageModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-});
-
-// Função para carregar mais itens em uma galeria
-function setupLoadMore(containerSelector, itemsSelector, initialCount = 9, increment = 4) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
-    
-    const items = container.querySelectorAll(itemsSelector);
-    let itemsToShow = initialCount;
-    
-    // Mostrar apenas os itens iniciais
-    items.forEach((item, index) => {
-        item.style.display = index < itemsToShow ? 'block' : 'none';
-    });
-    
-    // Criar botão "Veja mais" se houver mais itens para mostrar
-    if (items.length > initialCount) {
-        const loadMoreBtn = document.createElement('button');
-        loadMoreBtn.className = 'load-more';
-        loadMoreBtn.textContent = 'Veja mais';
-        loadMoreBtn.style.display = 'block';
-        loadMoreBtn.style.margin = '20px auto';
+        
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+                
+                const icon = question.querySelector('i');
+                if (item.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Simulador de Imóvel
+        const unidadeSelect = document.getElementById('unidade');
+        const valorImovelDisplay = document.getElementById('valor-imovel');
+        const statusImovelDisplay = document.getElementById('status-imovel');
+        const entradaInput = document.getElementById('entrada');
+        const percentualEntrada = document.getElementById('percentual-entrada');
+        const parcelaInput = document.getElementById('parcela');
+        const percentualParcela = document.getElementById('percentual-parcela');
+        const totalParcelasDisplay = document.getElementById('total-parcelas');
+        const percentualTotalParcelas = document.getElementById('percentual-total-parcelas');
+        const intercaladaInput = document.getElementById('intercalada');
+        const percentualIntercalada = document.getElementById('percentual-intercalada');
+        const totalIntercaladasDisplay = document.getElementById('total-intercaladas');
+        const percentualTotalIntercaladas = document.getElementById('percentual-total-intercaladas');
+        const subtotalDisplay = document.getElementById('subtotal');
+        const percentualSubtotal = document.getElementById('percentual-subtotal');
+        const chavesDisplay = document.getElementById('chaves');
+        const percentualChaves = document.getElementById('percentual-chaves');
+        const totalFinanciadoDisplay = document.getElementById('total-financiado');
+        const percentualTotal = document.getElementById('percentual-total');
+        const avisoMinimo = document.getElementById('aviso-minimo');
+        
+        let valorImovel = 0;
+        
+        // Atualizar quando selecionar a unidade
+        unidadeSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value === "") {
+                valorImovel = 0;
+                valorImovelDisplay.textContent = "R$ 0,00";
+                statusImovelDisplay.textContent = "";
+                entradaInput.value = '';
+                parcelaInput.value = '';
+                intercaladaInput.value = '';
+                return;
+            }
+            
+            valorImovel = parseFloat(selectedOption.getAttribute('data-valor'));
+            const entradaPadrao = parseFloat(selectedOption.getAttribute('data-entrada'));
+            const parcelaPadrao = parseFloat(selectedOption.getAttribute('data-parcela'));
+            const intercaladaPadrao = parseFloat(selectedOption.getAttribute('data-intercalada'));
+            const status = selectedOption.getAttribute('data-status');
+            
+            valorImovelDisplay.textContent = formatCurrency(valorImovel);
+            
+            // Atualiza o status do imóvel
+            if (status === 'reservado') {
+                statusImovelDisplay.textContent = '(RESERVADO)';
+                statusImovelDisplay.className = 'status-reservado';
+            } else {
+                statusImovelDisplay.textContent = '(DISPONÍVEL)';
+                statusImovelDisplay.className = 'status-disponivel';
+            }
+            
+            entradaInput.value = entradaPadrao.toFixed(2);
+            parcelaInput.value = parcelaPadrao.toFixed(2);
+            intercaladaInput.value = intercaladaPadrao.toFixed(2);
+            
+            updateCalculations();
+        });
+        
+        // Função para formatar valores monetários
+        function formatCurrency(value) {
+            return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
+        }
+        
+        // Função para calcular e atualizar os valores
+        function updateCalculations() {
+            // Obter valores dos inputs
+            const entrada = parseFloat(entradaInput.value) || 0;
+            const parcela = parseFloat(parcelaInput.value) || 0;
+            const intercalada = parseFloat(intercaladaInput.value) || 0;
+            
+            // Calcular totais
+            const totalParcelas = parcela * 48;
+            const totalIntercaladas = intercalada * 8;
+            const subtotal = entrada + totalParcelas + totalIntercaladas;
+            const chaves = valorImovel - subtotal;
+            const totalFinanciado = subtotal;
+            
+            // Calcular percentuais
+            const percentEntrada = (entrada / valorImovel) * 100;
+            const percentParcela = (parcela / valorImovel) * 100;
+            const percentTotalParcelasCalc = (totalParcelas / valorImovel) * 100;
+            const percentIntercalada = (intercalada / valorImovel) * 100;
+            const percentTotalIntercaladasCalc = (totalIntercaladas / valorImovel) * 100;
+            const percentSubtotal = (subtotal / valorImovel) * 100;
+            const percentChaves = (chaves / valorImovel) * 100;
+            const percentTotal = (totalFinanciado / valorImovel) * 100;
+            
+            // Atualizar displays
+            percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
+            percentualParcela.textContent = percentParcela.toFixed(2) + '%';
+            totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
+            percentualTotalParcelas.textContent = percentTotalParcelasCalc.toFixed(2) + '%';
+            percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
+            totalIntercaladasDisplay.textContent = formatCurrency(totalIntercaladas);
+            percentualTotalIntercaladas.textContent = percentTotalIntercaladasCalc.toFixed(2) + '%';
+            subtotalDisplay.textContent = formatCurrency(subtotal);
+            percentualSubtotal.textContent = percentSubtotal.toFixed(2) + '%';
+            chavesDisplay.textContent = formatCurrency(chaves);
+            percentualChaves.textContent = percentChaves.toFixed(2) + '%';
+            totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
+            percentualTotal.textContent = percentTotal.toFixed(2) + '%';
+            
+            // Verificar mínimo de 47%
+            if (percentTotal < 47 && percentTotal > 0) {
+                avisoMinimo.style.display = 'block';
+            } else {
+                avisoMinimo.style.display = 'none';
+            }
+        }
+        
+        // Atualizar cálculos quando qualquer valor mudar
+        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
+        
+        // Enviar simulação para WhatsApp
+        document.getElementById('enviar-simulacao').addEventListener('click', function() {
+            if (valorImovel === 0) {
+                alert('Por favor, selecione uma unidade primeiro.');
+                return;
+            }
+            
+            const unidade = unidadeSelect.options[unidadeSelect.selectedIndex].text;
+            const valorImovelText = valorImovelDisplay.textContent;
+            const statusText = statusImovelDisplay.textContent;
+            const entradaText = 'R$ ' + (entradaInput.value || '0') + ' (' + percentualEntrada.textContent + ')';
+            const parcelaText = 'R$ ' + (parcelaInput.value || '0') + ' (' + percentualParcela.textContent + ')';
+            const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
+            const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
+            const totalIntercaladasText = totalIntercaladasDisplay.textContent + ' (' + percentualTotalIntercaladas.textContent + ')';
+            const subtotalText = subtotalDisplay.textContent + ' (' + percentualSubtotal.textContent + ')';
+            const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
+            const totalText = totalFinanciadoDisplay.textContent + ' (' + percentualTotal.textContent + ')';
+            
+            const message = `Simulação de Imóvel - MOSS\n\n` +
+                            `Unidade: ${unidade}\n` +
+                            `Valor Total: ${valorImovelText} ${statusText}\n\n` +
+                            `Entrada: ${entradaText}\n` +
+                            `Parcela: ${parcelaText}\n` +
+                            `Total Parcelas (48x): ${totalParcelasText}\n` +
+                            `Intercalada: ${intercaladaText}\n` +
+                            `Total Intercaladas (8x): ${totalIntercaladasText}\n\n` +
+                            `Subtotal antes das chaves: ${subtotalText}\n` +
+                            `Chaves: ${chavesText}\n\n` +
+                            `TOTAL FINANCIADO: ${totalText}\n\n` +
+                            `Por favor, entre em contato para mais informações.`;
+            
+            const whatsappUrl = `https://wa.me/5521980081646?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Mostrar modal de sucesso
+            document.getElementById('modal').style.display = 'flex';
+        });
+        
+        // Formulário de Contato
+        const formContato = document.getElementById('form-contato');
+        
+        formContato.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const mensagem = document.getElementById('mensagem').value;
+            
+            const whatsappUrl = `https://wa.me/5521980081646?text=Olá,%20meu%20nome%20é%20${encodeURIComponent(nome)}.%20Gostaria%20de%20mais%20informações%20sobre%20o%20MOSS.%0A%0AE-mail:%20${encodeURIComponent(email)}%0ATelefone:%20${encodeURIComponent(telefone)}%0A%0AMensagem:%20${encodeURIComponent(mensagem)}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // Mostrar modal de sucesso
+            document.getElementById('modal').style.display = 'flex';
+            
+            // Limpar formulário
+            formContato.reset();
+        });
+        
+        // Fechar Modal
+        const modal = document.getElementById('modal');
+        const closeModal = document.querySelector('.close-modal');
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Atualizar header ao rolar
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                document.querySelector('header').style.background = 'rgba(255, 255, 255, 0.98)';
+                document.querySelector('header').style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                document.querySelector('header').style.background = 'rgba(255, 255, 255, 0.9)';
+                document.querySelector('header').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+        
+        // Galeria de Imagens - Veja mais
+        const loadMoreBtn = document.querySelector('.load-more');
+        const mosaicItems = document.querySelectorAll('.mosaic-item');
+        let itemsToShow = 9;
+        
+        // Mostrar apenas as primeiras 9 imagens inicialmente
+        mosaicItems.forEach((item, index) => {
+            if (index >= itemsToShow) {
+                item.style.display = 'none';
+            }
+        });
         
         loadMoreBtn.addEventListener('click', () => {
-            itemsToShow += increment;
+            itemsToShow += 4; // Mostrar mais 4 imagens a cada clique
             
             // Mostrar itens adicionais
-            items.forEach((item, index) => {
+            mosaicItems.forEach((item, index) => {
                 if (index < itemsToShow) {
                     item.style.display = 'block';
                 }
             });
             
             // Esconder o botão se todas as imagens estiverem visíveis
-            if (itemsToShow >= items.length) {
+            if (itemsToShow >= mosaicItems.length) {
                 loadMoreBtn.style.display = 'none';
             }
         });
         
-        container.appendChild(loadMoreBtn);
-    }
-}
-
-// Configurar "Veja mais" para as seções de galeria
-setupLoadMore('.gallery .mosaic', '.mosaic-item');
-setupLoadMore('.features-grid', '.feature-card');
-
-// Simulador de Imóvel - Código Revisado
-const unidadeSelect = document.getElementById('unidade');
-const valorImovelDisplay = document.getElementById('valor-imovel');
-const statusImovelDisplay = document.getElementById('status-imovel');
-const entradaInput = document.getElementById('entrada');
-const percentualEntrada = document.getElementById('percentual-entrada');
-const parcelaInput = document.getElementById('parcela');
-const percentualParcela = document.getElementById('percentual-parcela');
-const totalParcelasDisplay = document.getElementById('total-parcelas');
-const percentualTotalParcelas = document.getElementById('percentual-total-parcelas');
-const intercaladaInput = document.getElementById('intercalada');
-const percentualIntercalada = document.getElementById('percentual-intercalada');
-const totalIntercaladasDisplay = document.getElementById('total-intercaladas');
-const percentualTotalIntercaladas = document.getElementById('percentual-total-intercaladas');
-const chavesDisplay = document.getElementById('chaves');
-const percentualChaves = document.getElementById('percentual-chaves');
-const totalFinanciadoDisplay = document.getElementById('total-financiado');
-const percentualTotal = document.getElementById('percentual-total');
-const avisoMinimo = document.getElementById('aviso-minimo');
-const enviarSimulacaoBtn = document.getElementById('enviar-simulacao');
-
-// Alterar o nome do campo "Total Financiado"
-totalFinanciadoDisplay.previousElementSibling.textContent = 'Valor final a Financiar pós Chaves:';
-
-// Criar e posicionar o botão "Ver Prévia"
-const verPreviaBtn = document.createElement('button');
-verPreviaBtn.type = 'button';
-verPreviaBtn.textContent = 'Ver Prévia';
-verPreviaBtn.className = 'submit-btn';
-verPreviaBtn.style.margin = '20px auto';
-verPreviaBtn.style.display = 'block';
-verPreviaBtn.addEventListener('click', verPreviaCalculo);
-
-// Inserir o botão após o total das intercaladas
-const intercaladasContainer = totalIntercaladasDisplay.closest('.value-display');
-intercaladasContainer.parentNode.insertBefore(verPreviaBtn, intercaladasContainer.nextSibling);
-
-let valorImovel = 0;
-
-// Validação da entrada no evento blur
-entradaInput.addEventListener('blur', function() {
-    const entrada = parseFloat(this.value) || 0;
-    
-    if (entrada > 0 && entrada < valorImovel * 0.1) {
-        alert('A entrada mínima deve ser de 10% do valor do imóvel (' + formatCurrency(valorImovel * 0.1) + ').');
-        this.value = (valorImovel * 0.1).toFixed(2);
-        updateCalculations();
-    }
-});
-
-// Atualizar ao selecionar unidade
-unidadeSelect.addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    if (selectedOption.value === "") {
-        resetCalculations();
-        return;
-    }
-    
-    valorImovel = parseFloat(selectedOption.getAttribute('data-valor'));
-    const entradaPadrao = parseFloat(selectedOption.getAttribute('data-entrada'));
-    const parcelaPadrao = parseFloat(selectedOption.getAttribute('data-parcela'));
-    const intercaladaPadrao = parseFloat(selectedOption.getAttribute('data-intercalada'));
-    const status = selectedOption.getAttribute('data-status');
-    
-    valorImovelDisplay.textContent = formatCurrency(valorImovel);
-    statusImovelDisplay.textContent = status === 'reservado' ? '(RESERVADO)' : '(DISPONÍVEL)';
-    statusImovelDisplay.className = status === 'reservado' ? 'status-reservado' : 'status-disponivel';
-    
-    entradaInput.value = entradaPadrao.toFixed(2);
-    parcelaInput.value = parcelaPadrao.toFixed(2);
-    intercaladaInput.value = intercaladaPadrao.toFixed(2);
-    
-    updateCalculations();
-});
-
-// Funções auxiliares
-function resetCalculations() {
-    valorImovel = 0;
-    valorImovelDisplay.textContent = "R$ 0,00";
-    statusImovelDisplay.textContent = "";
-    entradaInput.value = '';
-    parcelaInput.value = '';
-    intercaladaInput.value = '';
-    
-    percentualEntrada.textContent = '0%';
-    percentualParcela.textContent = '0%';
-    totalParcelasDisplay.textContent = 'R$ 0,00';
-    percentualTotalParcelas.textContent = '0%';
-    percentualIntercalada.textContent = '0%';
-    totalIntercaladasDisplay.textContent = 'R$ 0,00';
-    percentualTotalIntercaladas.textContent = '0%';
-    chavesDisplay.textContent = 'R$ 0,00';
-    percentualChaves.textContent = '0%';
-    percentualChaves.style.color = ''; // Resetar cor
-    totalFinanciadoDisplay.textContent = 'R$ 0,00';
-    percentualTotal.textContent = '0%';
-    avisoMinimo.style.display = 'none';
-    verPreviaBtn.disabled = true;
-    enviarSimulacaoBtn.disabled = true;
-}
-
-function formatCurrency(value) {
-    return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
-}
-
-function updateCalculations() {
-    if (valorImovel === 0) return;
-    
-    const entrada = parseFloat(entradaInput.value) || 0;
-    const parcela = parseFloat(parcelaInput.value) || 0;
-    const intercalada = parseFloat(intercaladaInput.value) || 0;
-    
-    const totalParcelas = parcela * 48;
-    const totalIntercaladas = intercalada * 8;
-    
-    percentualEntrada.textContent = ((entrada / valorImovel) * 100).toFixed(2) + '%';
-    percentualParcela.textContent = ((parcela / valorImovel) * 100).toFixed(2) + '%';
-    totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
-    percentualTotalParcelas.textContent = ((totalParcelas / valorImovel) * 100).toFixed(2) + '%';
-    percentualIntercalada.textContent = ((intercalada / valorImovel) * 100).toFixed(2) + '%';
-    totalIntercaladasDisplay.textContent = formatCurrency(totalIntercaladas);
-    percentualTotalIntercaladas.textContent = ((totalIntercaladas / valorImovel) * 100).toFixed(2) + '%';
-    
-    // Habilitar "Ver Prévia" apenas se todos os campos estiverem preenchidos
-    verPreviaBtn.disabled = !(entrada > 0 && parcela > 0 && intercalada > 0);
-}
-
-function verPreviaCalculo() {
-    if (valorImovel === 0) return;
-    
-    const entrada = parseFloat(entradaInput.value) || 0;
-    const parcela = parseFloat(parcelaInput.value) || 0;
-    const intercalada = parseFloat(intercaladaInput.value) || 0;
-    
-    const totalParcelas = parcela * 48;
-    const totalIntercaladas = intercalada * 8;
-    const totalFinanciado = entrada + totalParcelas + totalIntercaladas;
-    const chaves = valorImovel - totalFinanciado;
-    
-    const percentChaves = (chaves / valorImovel) * 100;
-    const percentTotal = (totalFinanciado / valorImovel) * 100;
-    
-    // Atualizar displays
-    chavesDisplay.textContent = formatCurrency(chaves);
-    percentualChaves.textContent = percentChaves.toFixed(2) + '%';
-    
-    // Aplicar cor conforme percentual das chaves
-    if (percentChaves < 47) {
-        percentualChaves.style.color = 'red';
-    } else {
-        percentualChaves.style.color = '#1E90FF'; // Azul
-    }
-    
-    totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
-    percentualTotal.textContent = percentTotal.toFixed(2) + '%';
-    
-    // Validar se chaves atingem o mínimo de 47%
-    if (percentChaves < 47) {
-        avisoMinimo.style.display = 'block';
-        avisoMinimo.textContent = 'Atenção: O valor das chaves deve ser no mínimo 47% do valor do imóvel. Aumente os valores de entrada, parcelas ou intercaladas.';
-        enviarSimulacaoBtn.disabled = true;
-    } else {
-        avisoMinimo.style.display = 'none';
-        enviarSimulacaoBtn.disabled = false;
-    }
-}
-
-// Event listeners
-[entradaInput, parcelaInput, intercaladaInput].forEach(input => {
-    input.addEventListener('input', updateCalculations);
-});
-
-enviarSimulacaoBtn.addEventListener('click', function() {
-    if (valorImovel === 0) {
-        alert('Por favor, selecione uma unidade primeiro.');
-        return;
-    }
-    
-    if (enviarSimulacaoBtn.disabled) {
-        alert('Por favor, verifique os valores da simulação antes de enviar.');
-        return;
-    }
-    
-    const unidade = unidadeSelect.options[unidadeSelect.selectedIndex].text;
-    const valorImovelText = valorImovelDisplay.textContent;
-    const statusText = statusImovelDisplay.textContent;
-    
-    const message = `Simulação de Imóvel - MOSS\n\n` +
-                   `Unidade: ${unidade}\n` +
-                   `Valor Total: ${valorImovelText} ${statusText}\n\n` +
-                   `Entrada: R$ ${entradaInput.value || '0'} (${percentualEntrada.textContent})\n` +
-                   `Parcela: R$ ${parcelaInput.value || '0'} (${percentualParcela.textContent})\n` +
-                   `Total Parcelas (48x): ${totalParcelasDisplay.textContent} (${percentualTotalParcelas.textContent})\n` +
-                   `Intercalada: R$ ${intercaladaInput.value || '0'} (${percentualIntercalada.textContent})\n` +
-                   `Total Intercaladas (8x): ${totalIntercaladasDisplay.textContent} (${percentualTotalIntercaladas.textContent})\n\n` +
-                   `Chaves: ${chavesDisplay.textContent} (${percentualChaves.textContent})\n\n` +
-                   `Valor final a Financiar pós Chaves: ${totalFinanciadoDisplay.textContent} (${percentualTotal.textContent})\n\n` +
-                   `Olá, segue minha simulação do meu imóvel, verifique por favor.`;
-    
-    const whatsappUrl = `https://wa.me/5521980081646?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-});
-
-
-
+        // Modal de Imagem
+        const imageModal = document.getElementById('imageModal');
+        const expandedImg = document.getElementById('expandedImg');
+        const closeImageModal = document.querySelector('.image-modal .close-modal');
+        
+        // Adicionar evento de clique para cada imagem
+        document.querySelectorAll('.mosaic-item img').forEach(img => {
+            img.addEventListener('click', function() {
+                expandedImg.src = this.src;
+                expandedImg.alt = this.alt;
+                imageModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Desabilita o scroll da página
+            });
+        });
+        
+        // Fechar modal de imagem
+        closeImageModal.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
+        });
+        
+        // Fechar modal de imagem ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
+            }
+        });
     </script>
 </body>
 </html>
