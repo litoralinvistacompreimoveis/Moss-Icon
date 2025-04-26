@@ -858,7 +858,7 @@
         <div class="gallery-container">
             <h2 class="section-title">Conheça o MOSS</h2>
             <div class="mosaic">
-                <!-- Primeiras 9 imagens visíveis inicialmente -->
+                <!-- Primeiras 6 imagens visíveis inicialmente -->
                 <div class="mosaic-item">
                     <img src="imagens/0003.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
@@ -877,16 +877,16 @@
                 <div class="mosaic-item">
                     <img src="imagens/0022.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
-                <div class="mosaic-item">
+                <!-- Imagens adicionais que serão carregadas com o botão "Veja mais" -->
+                <div class="mosaic-item" style="display: none;">
                     <img src="imagens/0023.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
-                <div class="mosaic-item">
+                <div class="mosaic-item" style="display: none;">
                     <img src="imagens/0030.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
-                <div class="mosaic-item">
+                <div class="mosaic-item" style="display: none;">
                     <img src="imagens/0031.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
-                <!-- Imagens adicionais que serão carregadas com o botão "Veja mais" -->
                 <div class="mosaic-item" style="display: none;">
                     <img src="imagens/0032.jpg" alt="Imagem do empreendimento MOSS">
                 </div>
@@ -1081,7 +1081,7 @@
                 
                 <div class="form-group">
                     <label for="entrada">Entrada (mínimo 10% do valor do imóvel)</label>
-                    <input type="number" id="entrada" placeholder="Digite o valor da entrada" oninput="updateCalculations()">
+                    <input type="number" id="entrada" placeholder="Digite o valor da entrada">
                     <span id="percentual-entrada" class="percent">0%</span>
                 </div>
                 
@@ -1092,7 +1092,7 @@
                 
                 <div class="form-group">
                     <label for="parcela">Valor da Parcela Mensal</label>
-                    <input type="number" id="parcela" placeholder="Digite o valor da parcela" oninput="updateCalculations()">
+                    <input type="number" id="parcela" placeholder="Digite o valor da parcela">
                     <span id="percentual-parcela" class="percent">0%</span>
                 </div>
                 
@@ -1104,7 +1104,7 @@
                 
                 <div class="form-group">
                     <label for="intercalada">Valor de cada Intercalada (8x)</label>
-                    <input type="number" id="intercalada" placeholder="Digite o valor de cada intercalada" oninput="updateCalculations()">
+                    <input type="number" id="intercalada" placeholder="Digite o valor de cada intercalada">
                     <span id="percentual-intercalada" class="percent">0%</span>
                 </div>
                 
@@ -1114,22 +1114,20 @@
                     <span id="percentual-total-intercaladas" class="percent">0%</span>
                 </div>
                 
-                <div class="calculation-row">
-                    <span>Subtotal antes das chaves:</span>
-                    <span id="subtotal">R$ 0,00</span>
-                    <span id="percentual-subtotal" class="percent">0%</span>
-                </div>
+                <button type="button" id="calcular-previa" class="submit-btn" style="margin-top: 1rem;">Calcular Prévia</button>
                 
-                <div class="calculation-row">
-                    <span>Chaves:</span>
-                    <span id="chaves">R$ 0,00</span>
-                    <span id="percentual-chaves" class="percent">0%</span>
-                </div>
-                
-                <div class="calculation-row total-row">
-                    <span>Total Financiado:</span>
-                    <span id="total-financiado">R$ 0,00</span>
-                    <span id="percentual-total" class="percent">0%</span>
+                <div id="resultados" style="display: none;">
+                    <div class="calculation-row">
+                        <span>Chaves:</span>
+                        <span id="chaves">R$ 0,00</span>
+                        <span id="percentual-chaves" class="percent">0%</span>
+                    </div>
+                    
+                    <div class="calculation-row total-row">
+                        <span>TOTAL FINANCIADO:</span>
+                        <span id="total-financiado">R$ 0,00</span>
+                        <span id="percentual-total" class="percent">0%</span>
+                    </div>
                 </div>
                 
                 <div id="aviso-minimo" style="color: red; margin: 1rem 0; display: none;">
@@ -1364,6 +1362,63 @@
             });
         });
         
+        // Galeria de Imagens - Veja mais
+        const loadMoreBtn = document.querySelector('.load-more');
+        const mosaicItems = document.querySelectorAll('.mosaic-item');
+        let itemsToShow = 6; // Mostrar apenas 6 imagens inicialmente
+        
+        // Mostrar apenas as primeiras 6 imagens inicialmente
+        mosaicItems.forEach((item, index) => {
+            if (index >= itemsToShow) {
+                item.style.display = 'none';
+            }
+        });
+        
+        loadMoreBtn.addEventListener('click', () => {
+            itemsToShow += 6; // Mostrar mais 6 imagens a cada clique
+            
+            // Mostrar itens adicionais
+            mosaicItems.forEach((item, index) => {
+                if (index < itemsToShow) {
+                    item.style.display = 'block';
+                }
+            });
+            
+            // Esconder o botão se todas as imagens estiverem visíveis
+            if (itemsToShow >= mosaicItems.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+        
+        // Modal de Imagem
+        const imageModal = document.getElementById('imageModal');
+        const expandedImg = document.getElementById('expandedImg');
+        const closeImageModal = document.querySelector('.image-modal .close-modal');
+        
+        // Adicionar evento de clique para cada imagem
+        document.querySelectorAll('.mosaic-item img, .feature-card img').forEach(img => {
+            img.addEventListener('click', function() {
+                expandedImg.src = this.src;
+                expandedImg.alt = this.alt;
+                imageModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Desabilita o scroll da página
+            });
+        });
+        
+        // Fechar modal de imagem
+        closeImageModal.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
+        });
+        
+        // Fechar modal de imagem ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
+            }
+        });
+        
         // Simulador de Imóvel
         const unidadeSelect = document.getElementById('unidade');
         const valorImovelDisplay = document.getElementById('valor-imovel');
@@ -1378,13 +1433,13 @@
         const percentualIntercalada = document.getElementById('percentual-intercalada');
         const totalIntercaladasDisplay = document.getElementById('total-intercaladas');
         const percentualTotalIntercaladas = document.getElementById('percentual-total-intercaladas');
-        const subtotalDisplay = document.getElementById('subtotal');
-        const percentualSubtotal = document.getElementById('percentual-subtotal');
         const chavesDisplay = document.getElementById('chaves');
         const percentualChaves = document.getElementById('percentual-chaves');
         const totalFinanciadoDisplay = document.getElementById('total-financiado');
         const percentualTotal = document.getElementById('percentual-total');
         const avisoMinimo = document.getElementById('aviso-minimo');
+        const calcularPreviaBtn = document.getElementById('calcular-previa');
+        const resultadosDiv = document.getElementById('resultados');
         
         let valorImovel = 0;
         
@@ -1398,6 +1453,7 @@
                 entradaInput.value = '';
                 parcelaInput.value = '';
                 intercaladaInput.value = '';
+                resultadosDiv.style.display = 'none';
                 return;
             }
             
@@ -1422,7 +1478,8 @@
             parcelaInput.value = parcelaPadrao.toFixed(2);
             intercaladaInput.value = intercaladaPadrao.toFixed(2);
             
-            updateCalculations();
+            // Atualiza os percentuais iniciais
+            updatePercentuais();
         });
         
         // Função para formatar valores monetários
@@ -1430,8 +1487,35 @@
             return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
         }
         
-        // Função para calcular e atualizar os valores
-        function updateCalculations() {
+        // Função para atualizar os percentuais
+        function updatePercentuais() {
+            const entrada = parseFloat(entradaInput.value) || 0;
+            const parcela = parseFloat(parcelaInput.value) || 0;
+            const intercalada = parseFloat(intercaladaInput.value) || 0;
+            
+            // Calcular percentuais
+            const percentEntrada = (entrada / valorImovel) * 100;
+            const percentParcela = (parcela / valorImovel) * 100;
+            const percentIntercalada = (intercalada / valorImovel) * 100;
+            
+            // Atualizar displays
+            percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
+            percentualParcela.textContent = percentParcela.toFixed(2) + '%';
+            percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
+        }
+        
+        // Atualizar percentuais quando qualquer valor mudar
+        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
+            input.addEventListener('input', updatePercentuais);
+        });
+        
+        // Calcular prévia quando o botão for clicado
+        calcularPreviaBtn.addEventListener('click', function() {
+            if (valorImovel === 0) {
+                alert('Por favor, selecione uma unidade primeiro.');
+                return;
+            }
+            
             // Obter valores dos inputs
             const entrada = parseFloat(entradaInput.value) || 0;
             const parcela = parseFloat(parcelaInput.value) || 0;
@@ -1440,34 +1524,27 @@
             // Calcular totais
             const totalParcelas = parcela * 48;
             const totalIntercaladas = intercalada * 8;
-            const subtotal = entrada + totalParcelas + totalIntercaladas;
-            const chaves = valorImovel - subtotal;
-            const totalFinanciado = subtotal;
+            const chaves = entrada + totalParcelas + totalIntercaladas;
+            const totalFinanciado = valorImovel - chaves;
             
             // Calcular percentuais
-            const percentEntrada = (entrada / valorImovel) * 100;
-            const percentParcela = (parcela / valorImovel) * 100;
             const percentTotalParcelasCalc = (totalParcelas / valorImovel) * 100;
-            const percentIntercalada = (intercalada / valorImovel) * 100;
             const percentTotalIntercaladasCalc = (totalIntercaladas / valorImovel) * 100;
-            const percentSubtotal = (subtotal / valorImovel) * 100;
             const percentChaves = (chaves / valorImovel) * 100;
             const percentTotal = (totalFinanciado / valorImovel) * 100;
             
             // Atualizar displays
-            percentualEntrada.textContent = percentEntrada.toFixed(2) + '%';
-            percentualParcela.textContent = percentParcela.toFixed(2) + '%';
             totalParcelasDisplay.textContent = formatCurrency(totalParcelas);
             percentualTotalParcelas.textContent = percentTotalParcelasCalc.toFixed(2) + '%';
-            percentualIntercalada.textContent = percentIntercalada.toFixed(2) + '%';
             totalIntercaladasDisplay.textContent = formatCurrency(totalIntercaladas);
             percentualTotalIntercaladas.textContent = percentTotalIntercaladasCalc.toFixed(2) + '%';
-            subtotalDisplay.textContent = formatCurrency(subtotal);
-            percentualSubtotal.textContent = percentSubtotal.toFixed(2) + '%';
             chavesDisplay.textContent = formatCurrency(chaves);
             percentualChaves.textContent = percentChaves.toFixed(2) + '%';
             totalFinanciadoDisplay.textContent = formatCurrency(totalFinanciado);
             percentualTotal.textContent = percentTotal.toFixed(2) + '%';
+            
+            // Mostrar os resultados
+            resultadosDiv.style.display = 'block';
             
             // Verificar mínimo de 47%
             if (percentTotal < 47 && percentTotal > 0) {
@@ -1475,17 +1552,17 @@
             } else {
                 avisoMinimo.style.display = 'none';
             }
-        }
-        
-        // Atualizar cálculos quando qualquer valor mudar
-        [entradaInput, parcelaInput, intercaladaInput].forEach(input => {
-            input.addEventListener('input', updateCalculations);
         });
         
         // Enviar simulação para WhatsApp
         document.getElementById('enviar-simulacao').addEventListener('click', function() {
             if (valorImovel === 0) {
                 alert('Por favor, selecione uma unidade primeiro.');
+                return;
+            }
+            
+            if (resultadosDiv.style.display !== 'block') {
+                alert('Por favor, clique em "Calcular Prévia" antes de enviar a simulação.');
                 return;
             }
             
@@ -1497,7 +1574,6 @@
             const totalParcelasText = totalParcelasDisplay.textContent + ' (' + percentualTotalParcelas.textContent + ')';
             const intercaladaText = 'R$ ' + (intercaladaInput.value || '0') + ' (' + percentualIntercalada.textContent + ')';
             const totalIntercaladasText = totalIntercaladasDisplay.textContent + ' (' + percentualTotalIntercaladas.textContent + ')';
-            const subtotalText = subtotalDisplay.textContent + ' (' + percentualSubtotal.textContent + ')';
             const chavesText = chavesDisplay.textContent + ' (' + percentualChaves.textContent + ')';
             const totalText = totalFinanciadoDisplay.textContent + ' (' + percentualTotal.textContent + ')';
             
@@ -1509,7 +1585,6 @@
                             `Total Parcelas (48x): ${totalParcelasText}\n` +
                             `Intercalada: ${intercaladaText}\n` +
                             `Total Intercaladas (8x): ${totalIntercaladasText}\n\n` +
-                            `Subtotal antes das chaves: ${subtotalText}\n` +
                             `Chaves: ${chavesText}\n\n` +
                             `TOTAL FINANCIADO: ${totalText}\n\n` +
                             `Por favor, entre em contato para mais informações.`;
@@ -1565,63 +1640,6 @@
             } else {
                 document.querySelector('header').style.background = 'rgba(255, 255, 255, 0.9)';
                 document.querySelector('header').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            }
-        });
-        
-        // Galeria de Imagens - Veja mais
-        const loadMoreBtn = document.querySelector('.load-more');
-        const mosaicItems = document.querySelectorAll('.mosaic-item');
-        let itemsToShow = 9;
-        
-        // Mostrar apenas as primeiras 9 imagens inicialmente
-        mosaicItems.forEach((item, index) => {
-            if (index >= itemsToShow) {
-                item.style.display = 'none';
-            }
-        });
-        
-        loadMoreBtn.addEventListener('click', () => {
-            itemsToShow += 4; // Mostrar mais 4 imagens a cada clique
-            
-            // Mostrar itens adicionais
-            mosaicItems.forEach((item, index) => {
-                if (index < itemsToShow) {
-                    item.style.display = 'block';
-                }
-            });
-            
-            // Esconder o botão se todas as imagens estiverem visíveis
-            if (itemsToShow >= mosaicItems.length) {
-                loadMoreBtn.style.display = 'none';
-            }
-        });
-        
-        // Modal de Imagem
-        const imageModal = document.getElementById('imageModal');
-        const expandedImg = document.getElementById('expandedImg');
-        const closeImageModal = document.querySelector('.image-modal .close-modal');
-        
-        // Adicionar evento de clique para cada imagem
-        document.querySelectorAll('.mosaic-item img').forEach(img => {
-            img.addEventListener('click', function() {
-                expandedImg.src = this.src;
-                expandedImg.alt = this.alt;
-                imageModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Desabilita o scroll da página
-            });
-        });
-        
-        // Fechar modal de imagem
-        closeImageModal.addEventListener('click', () => {
-            imageModal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
-        });
-        
-        // Fechar modal de imagem ao clicar fora
-        window.addEventListener('click', (e) => {
-            if (e.target === imageModal) {
-                imageModal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Habilita o scroll da página novamente
             }
         });
     </script>
